@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/class-diagram
+'skinparam classAttributeIconSize 0
+
+Abstract Class Media {
+#dureeEmprunt : entier
+#dateCreation: date
+#titre : chaine
+#statut : chaine
+}
+
+
+Class Livre {
+- isbn : chaine
+- auteur : chaine
+- nbPages : entier
+}
+
+
+Class BluRay {
+- realisateur  : chaine
+- duree : int
+- anneeSortie : dateTime
+}
+
+
+Class Magazine {
+- Numero : entier
+- datePublication : dateTime
+}
+
+Class Adherant {
+- NoAdherant : chaine
+- nom  : chaine
+- prenom : chaine
+- email : chaine
+- dateAdhesion : dateTime
+}
+
+Class Emprunt {
+- dateEmprunt :dateTime
+- dateretourEstime : dateTime
+- dateretour: dateTime
+
+}
+
+Livre --|> Media
+BluRay --|> Media
+Magazine --|> Media
+Adherant "1..*" <-- "1..1" Emprunt : associé >
+Media "0..*" <-- "1..1" Emprunt : concerne >
+@enduml
+
+
+

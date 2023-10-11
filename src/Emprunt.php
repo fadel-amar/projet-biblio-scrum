@@ -17,4 +17,21 @@ class Emprunt
     {
     }
 
+    public function empruntEnCours(): bool {
+        if (!isset($this->dateRetour)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function empruntEnRetard() {
+        if (!isset($this->dateRetour) and  (new \DateTime())> $this->dateRetourEstime){
+            return true;
+        }
+        return false;
+    }
+
+
+
 }

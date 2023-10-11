@@ -32,6 +32,84 @@ class Emprunt
         return false;
     }
 
+    /**
+     * @return DateTime
+     */
+    public function getDateEmprunt(): DateTime
+    {
+        return $this->dateEmprunt;
+    }
 
+    /**
+     * @param DateTime $dateEmprunt
+     */
+    public function setDateEmprunt(DateTime $dateEmprunt): void
+    {
+        $this->dateEmprunt = $dateEmprunt;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateRetourEstime(): DateTime
+    {
+        return $this->dateRetourEstime;
+    }
+
+    /**
+     * @param DateTime $dateRetourEstime
+     */
+    public function setDateRetourEstime(DateTime $dateRetourEstime): void
+    {
+        $this->dateRetourEstime = $dateRetourEstime;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getDateRetour(): ?DateTime
+    {
+        return $this->dateRetour;
+    }
+
+    /**
+     * @param DateTime|null $dateRetour
+     */
+    public function setDateRetour(?DateTime $dateRetour): void
+    {
+        $this->dateRetour = $dateRetour;
+    }
+
+    /**
+     * @return Adherant
+     */
+    public function getAdherant(): Adherant
+    {
+        return $this->adherant;
+    }
+
+    /**
+     * @param Adherant $adherant
+     */
+    public function setAdherant(Adherant $adherant): void
+    {
+        $this->adherant = $adherant;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getMedia(): Media
+    {
+        return $this->media;
+    }
+
+    /**
+     * @param Media $media
+     */
+    public function setMedia(Media $media): void
+    {
+        $this->media = $media;
+    }
 
 }

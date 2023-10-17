@@ -20,5 +20,9 @@
     "require-dev": {
         "symfony/var-dumper": "^6.3",
         "phpunit/phpunit": "^10.4"
+    },
+
+    "scripts": {
+        "unit-tests": "./vendor/bin/phpunit tests --color=always --testdox"
     }
 }

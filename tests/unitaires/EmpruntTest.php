@@ -13,9 +13,9 @@ class EmpruntTest extends TestCase
      */
     public function empruntTest_DateRetourNull_EmpruntEncoursTrue()
     {
-        $livre = new \App\Livre();
-        $emprunt = new \App\Emprunt();
-        $adherant = new \App\Adherant();
+        $livre = new \App\Entity\Livre();
+        $emprunt = new \App\Entity\Emprunt();
+        $adherant = new \App\Entity\Adherant();
 
         $emprunt->setMedia($livre);
         $emprunt->setAdherant($adherant);
@@ -29,9 +29,9 @@ class EmpruntTest extends TestCase
      */
     public function empruntTest_DateRetourNotNull_EmpruntEncoursFalse()
     {
-        $livre = new \App\Livre();
-        $emprunt = new \App\Emprunt();
-        $adherant = new \App\Adherant();
+        $livre = new \App\Entity\Livre();
+        $emprunt = new \App\Entity\Emprunt();
+        $adherant = new \App\Entity\Adherant();
 
         $emprunt->setMedia($livre);
         $emprunt->setAdherant($adherant);
@@ -46,9 +46,9 @@ class EmpruntTest extends TestCase
      */
     public function empruntTest_EmpruntPasRetournerAndDateRetourDepasse_EmpruntRetardTrue()
     {
-        $livre = new \App\Livre();
-        $emprunt = new \App\Emprunt();
-        $adherant = new \App\Adherant();
+        $livre = new \App\Entity\Livre();
+        $emprunt = new \App\Entity\Emprunt();
+        $adherant = new \App\Entity\Adherant();
 
         $emprunt->setMedia($livre);
         $emprunt->setAdherant($adherant);
@@ -61,9 +61,9 @@ class EmpruntTest extends TestCase
      * @test
      */
     public function empruntTest_EmpruntPasRetournerAndDateRetourNoDepasse_EmpruntRetardFalse() {
-        $livre = new \App\Livre();
-        $emprunt = new \App\Emprunt();
-        $adherant = new \App\Adherant();
+        $livre = new \App\Entity\Livre();
+        $emprunt = new \App\Entity\Emprunt();
+        $adherant = new \App\Entity\Adherant();
 
         $emprunt->setMedia($livre);
         $emprunt->setAdherant($adherant);

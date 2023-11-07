@@ -25,7 +25,7 @@ class Emprunt
         }
     }
 
-    public function empruntEnRetard() {
+    public function empruntEnRetard() : bool {
         if (!isset($this->dateRetour) and  (new \DateTime())> $this->dateRetourEstime){
             return true;
         }

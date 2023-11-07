@@ -20,7 +20,8 @@ class EmpruntTest extends TestCase
         $emprunt->setMedia($livre);
         $emprunt->setAdherant($adherant);
         $emprunt->setDateEmprunt(new \DateTime('09/06/2023'));
-        $this->assertTrue($emprunt->empruntEnCours(), "L'emprunt est en cours");
+
+        $this->assertTrue($emprunt->empruntEnCours());
 
     }
 
@@ -36,8 +37,9 @@ class EmpruntTest extends TestCase
         $emprunt->setMedia($livre);
         $emprunt->setAdherant($adherant);
         $emprunt->setDateEmprunt(new \DateTime('09/06/2023'));
-        $emprunt->setDateRetour(new \DateTime('09/10/2023'));
-        $this->assertFalse($emprunt->empruntEnCours(), "L'emprunt n'est plus  en cours");
+        $emprunt->setDateRetour(new \DateTime('09/15/2023'));
+
+        $this->assertFalse($emprunt->empruntEnCours());
 
     }
 
@@ -52,9 +54,10 @@ class EmpruntTest extends TestCase
 
         $emprunt->setMedia($livre);
         $emprunt->setAdherant($adherant);
-        $emprunt->setDateEmprunt(new \DateTime('09/06/2023'));
-        $emprunt->setDateRetourEstime(new \DateTime('09/06/2023'));
-        $this->assertTrue($emprunt->empruntEnRetard(), "L'emprunt est en retard");
+        $emprunt->setDateEmprunt(new \DateTime('06/06/2023'));
+        $emprunt->setDateRetourEstime(new \DateTime('06/30/2023'));
+
+        $this->assertTrue($emprunt->empruntEnRetard());
     }
 
     /**
@@ -69,7 +72,8 @@ class EmpruntTest extends TestCase
         $emprunt->setAdherant($adherant);
         $emprunt->setDateEmprunt(new \DateTime('06/09/2023'));
         $emprunt->setDateRetourEstime(new \DateTime('12/10/2023'));
-        $this->assertFalse($emprunt->empruntEnRetard(), "L'emprunt est en retard");
+
+        $this->assertFalse($emprunt->empruntEnRetard());
     }
 
 

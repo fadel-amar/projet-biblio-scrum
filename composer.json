@@ -14,7 +14,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Tests\\": "tests"
         }
     },
     "require": {
@@ -22,7 +22,8 @@
         "doctrine/dbal": "^3.2",
         "symfony/yaml": "^5.4",
         "symfony/cache": "^5.4",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "symfony/validator": "^6.3"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.3",

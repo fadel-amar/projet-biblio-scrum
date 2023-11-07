@@ -33,3 +33,4 @@
         "unit-tests": "./vendor/bin/phpunit tests --color=always --testdox"
     }
 }
+

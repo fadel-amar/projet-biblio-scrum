@@ -35,6 +35,8 @@ Class Adherant {
 - prenom : chaine
 - email : chaine
 - dateAdhesion : dateTime
+~ empruntEnCours()
+~ empruntEnRetard()
 }
 
 Class Emprunt {

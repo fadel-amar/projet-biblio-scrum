@@ -75,6 +75,55 @@ class Adherant
         $this->dateAdhesion = $dateAdhesion;
     }
 
+    /**
+     * @return int
+     */
+    public function getIdAdherant(): int
+    {
+        return $this->id_adherant;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumeroAdherant(): string
+    {
+        return $this->numeroAdherant;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrenom(): string
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateAdhesion(): \DateTime
+    {
+        return $this->dateAdhesion;
+    }
+
+
 
 
 }

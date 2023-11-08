@@ -11,7 +11,7 @@ class EmpruntTest extends TestCase
     /**
      * @test
      */
-    public function empruntTest_DateRetourNull_EmpruntEncoursTrue()
+    public function empruntEnCours_DateRetourNonRenseigne_Vrai()
     {
         $livre = new \App\Entity\Livre();
         $emprunt = new \App\Entity\Emprunt();
@@ -28,7 +28,7 @@ class EmpruntTest extends TestCase
     /**
      * @test
      */
-    public function empruntTest_DateRetourNotNull_EmpruntEncoursFalse()
+    public function empruntEnCours_DateRetourNonRenseigne_Faux()
     {
         $livre = new \App\Entity\Livre();
         $emprunt = new \App\Entity\Emprunt();
@@ -46,7 +46,7 @@ class EmpruntTest extends TestCase
     /**
      * @test
      */
-    public function empruntTest_EmpruntPasRetournerAndDateRetourDepasse_EmpruntRetardTrue()
+    public function empruntEnRetard_EmpruntEnCoursEtDateRetourDepasse_Vrai()
     {
         $livre = new \App\Entity\Livre();
         $emprunt = new \App\Entity\Emprunt();
@@ -63,7 +63,7 @@ class EmpruntTest extends TestCase
     /**
      * @test
      */
-    public function empruntTest_EmpruntPasRetournerAndDateRetourNoDepasse_EmpruntRetardFalse() {
+    public function empruntEnRetard_EmpruntEnCoursAndDateRetourEstimeNonDepasse_Faux() {
         $livre = new \App\Entity\Livre();
         $emprunt = new \App\Entity\Emprunt();
         $adherant = new \App\Entity\Adherant();
@@ -75,6 +75,41 @@ class EmpruntTest extends TestCase
 
         $this->assertFalse($emprunt->empruntEnRetard());
     }
+
+    /**
+     * @test
+     */
+    public function empruntEnRetard_EmpruntPasEnCoursAndDateRetourEstimeDepasse_Faux() {
+        $livre = new \App\Entity\Livre();
+        $emprunt = new \App\Entity\Emprunt();
+        $adherant = new \App\Entity\Adherant();
+
+        $emprunt->setMedia($livre);
+        $emprunt->setAdherant($adherant);
+        $emprunt->setDateEmprunt(new \DateTime('06/09/2023'));
+        $emprunt->setDateRetour( new \DateTime('06/25/2023'));
+        $emprunt->setDateRetourEstime(new \DateTime('12/10/2023'));
+
+        $this->assertFalse($emprunt->empruntEnRetard());
+    }
+
+    /**
+     * @test
+     */
+    public function empruntEnRetard_EmpruntPasEnCoursAndDateRetourEstimeNonDepasse_Faux() {
+        $livre = new \App\Entity\Livre();
+        $emprunt = new \App\Entity\Emprunt();
+        $adherant = new \App\Entity\Adherant();
+
+        $emprunt->setMedia($livre);
+        $emprunt->setAdherant($adherant);
+        $emprunt->setDateEmprunt(new \DateTime('06/09/2023'));
+        $emprunt->setDateRetour( new \DateTime('06/25/2023'));
+        $emprunt->setDateRetourEstime(new \DateTime('12/10/2023'));
+
+        $this->assertFalse($emprunt->empruntEnRetard());
+    }
+
 
 
 

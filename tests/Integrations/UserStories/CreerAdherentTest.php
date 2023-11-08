@@ -12,9 +12,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\SchemaTool;
-use Dotenv\Validator;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -45,7 +45,10 @@ class CreerAdherentTest extends TestCase
         // Création des dépendances
         $this->entityManager = new EntityManager($connection, $config);
         $this->generateurNumeroAdherent = new GenerateurNumeroAdherant();
-        $this->validateur = Validation::createValidator();
+//        $this->validateur = Validation::createValidator();
+        $this->validateur = Validation::createValidatorBuilder()
+                            ->enableAnnotationMapping()
+                            ->getValidator();
 
         // Création du schema de la base de données
         $schemaTool = new SchemaTool($this->entityManager);
@@ -58,8 +61,10 @@ class CreerAdherentTest extends TestCase
     {
         // Arrange
         $requete = new CreerAdherantRequete("jhon", "doe", "jhondoe@gmail.com");
+
         $creerAdherant = new CreerAdherant($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
         // Act
+
         $resultat = $creerAdherant->execute($requete);
         // Assert
         $repository = $this->entityManager->getRepository(Adherant::class);

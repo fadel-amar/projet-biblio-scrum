@@ -47,14 +47,15 @@ class CreerAdherentTest extends TestCase
         $this->generateurNumeroAdherent = new GenerateurNumeroAdherant();
 //        $this->validateur = Validation::createValidator();
         $this->validateur = Validation::createValidatorBuilder()
-                            ->enableAnnotationMapping()
-                            ->getValidator();
+            ->enableAnnotationMapping()
+            ->getValidator();
 
         // Création du schema de la base de données
         $schemaTool = new SchemaTool($this->entityManager);
         $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
         $schemaTool->createSchema($metadata);
     }
+
 
     #[test]
     public function creerAdherent_ValeursCorrectes_True()
@@ -73,4 +74,115 @@ class CreerAdherentTest extends TestCase
         $this->assertEquals("jhon", $adherant->getPrenom());
         $this->assertEquals("doe", $adherant->getNom());
     }
+
+    #[test]
+    public function creerAdherent_PrenomNonforuni_Exception()
+    {
+        // Arrange
+        $requete = new CreerAdherantRequete("", "doe", "jhondoe@gmail.com");
+
+        $creerAdherant = new CreerAdherant($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
+        // Act
+
+        $this->expectExceptionMessage("Le prenom est obligatoire");
+        $resultat = $creerAdherant->execute($requete);
+        // Assert
+    }
+
+    #[test]
+    public function creerAdherent_NomNonforuni_Exception()
+    {
+        // Arrange
+        $requete = new CreerAdherantRequete("jhon", "", "jhondoe@gmail.com");
+
+        $creerAdherant = new CreerAdherant($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
+        // Act
+
+        $this->expectExceptionMessage("Le nom est obligatoire");
+        $resultat = $creerAdherant->execute($requete);
+        // Assert
+    }
+
+
+    #[test]
+    public function creerAdherent_AdresseMailPasEncoreInscrite_Vraie()
+    {
+        // Arrange
+        $requete = new CreerAdherantRequete("jhon", "doe", "jhondoe@gmail.com");
+
+        $creerAdherant = new CreerAdherant($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
+        // Act
+
+        $resultat = $creerAdherant->execute($requete);
+        // Assert
+        $repository = $this->entityManager->getRepository(Adherant::class);
+        $adherant = $repository->findOneBy(["email" => "jhondoe@gmail.com"]);
+        $this->assertNotNull($adherant);
+        $this->assertEquals("jhon", $adherant->getPrenom());
+        $this->assertEquals("doe", $adherant->getNom());
+    }
+
+    #[test]
+    public function creerAdherent_AdresseMailNonUnique_Exception()
+    {
+        // Arrange
+        $requete = new CreerAdherantRequete("jhon", "doe", "jhondoe@gmail.com");
+        $creerAdherant = new CreerAdherant($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
+
+
+        // Act
+
+        $resultat = $creerAdherant->execute($requete);
+        $this->expectExceptionMessage("L'email est déjà inscrit à un adherant");
+        $resultat = $creerAdherant->execute($requete);
+
+        // Assert
+
+    }
+
+    #[test]
+    public function creerAdherent_NumeroAdherantNonUniqueDansLaBDD_Exception()
+    {
+        // Arrange
+
+        $MockGenerateurNumeroAdherant = $this->createMock(GenerateurNumeroAdherant::class);
+        $MockGenerateurNumeroAdherant->method("generer")->willReturn('AD-456746');
+
+        $requete1 = new CreerAdherantRequete("jhon", "doe", "jhondoe@gmail.com");
+        $creerAdherant1 = new CreerAdherant($this->entityManager, $MockGenerateurNumeroAdherant, $this->validateur);
+
+        $requete2 = new CreerAdherantRequete("nono", "kolo", "kolo@gmail.com");
+        $creerAdherant2 = new CreerAdherant($this->entityManager, $MockGenerateurNumeroAdherant, $this->validateur);
+
+
+        // Act
+        $resultat = $creerAdherant1->execute($requete1);
+        $this->expectExceptionMessage("Le numero adherant existe déjà");
+        $resultat = $creerAdherant2->execute($requete2);
+
+
+        // Assert
+
+    }
+
+    #[test]
+    public function creerAdherent_NumeroAdherantUnique_Vraie()
+    {
+// Arrange
+        $requete = new CreerAdherantRequete("jhon", "doe", "jhondoe@gmail.com");
+
+        $creerAdherant = new CreerAdherant($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
+        // Act
+
+        $resultat = $creerAdherant->execute($requete);
+        // Assert
+        $repository = $this->entityManager->getRepository(Adherant::class);
+        $adherant = $repository->findOneBy(["email" => "jhondoe@gmail.com"]);
+        $this->assertNotNull($adherant);
+        $this->assertEquals("jhon", $adherant->getPrenom());
+        $this->assertEquals("doe", $adherant->getNom());
+
+    }
+
+
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
 
+// todo remplacer adherant en adherent
 #[Entity]
 #[Table(name: 'Adherant')]
 class Adherant

@@ -31,7 +31,8 @@
     },
 
     "scripts": {
-        "unit-tests": "./vendor/bin/phpunit tests --color=always --testdox"
+        "unit-tests": "./vendor/bin/phpunit tests --color=always --testdox",
+        "it-test": "./vendor/bin/phpunit --testsuite Integration --testdox --colors=always"
     }
 }
 

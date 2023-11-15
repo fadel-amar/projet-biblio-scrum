@@ -37,18 +37,23 @@ class CreerAdherant {
         // Valider les données en entrées (de la requête)
         $problemes = $this->validateur->validate($requete);
         if(count($problemes) > 0) {
-          throw new \Exception($problemes->__tostring());
+          throw new \Exception($problemes->__toString());
         }
 
-        // Vérifier que l'email n'existe pas déjà
+        // todo Test Vérifier que l'email n'existe pas déjà
+        $getEmailAdherant = $this->entityManager->getRepository(Adherant::class)->findOneBy(['email'=> $requete->email]);
+        if ( $getEmailAdherant != null ) {
+            throw new \Exception("L'email est déjà inscrit à un adherant");
+        }
 
         // Générer un numéro d'adhérent au format AD-999999
         $numeroAdherant = $this->generateurNumeroAdherent->generer();
 
-        // Vérifier que le numéro n'existe pas déjà
-
-
-
+        // todo Test Vérifier que le numéro n'existe pas déjà
+        $getNumeroAdherant = $this->entityManager->getRepository(Adherant::class)->findOneBy(['numeroAdherant'=> $numeroAdherant]);
+        if($getNumeroAdherant != null ) {
+            throw new \Exception("Le numero adherant existe déjà");
+        }
 
         // Créer l'adhérent
         $adherant = new Adherant();

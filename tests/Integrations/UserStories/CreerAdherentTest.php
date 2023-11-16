@@ -45,7 +45,6 @@ class CreerAdherentTest extends TestCase
         // Création des dépendances
         $this->entityManager = new EntityManager($connection, $config);
         $this->generateurNumeroAdherent = new GenerateurNumeroAdherant();
-//        $this->validateur = Validation::createValidator();
         $this->validateur = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()
             ->getValidator();

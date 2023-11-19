@@ -9,7 +9,7 @@ class Emprunt
     private DateTime $dateEmprunt;
     private DateTime $dateRetourEstime;
     private ?DateTime $dateRetour;
-    private Adherant $adherant;
+    private Adherent $adherent;
     private Media $media;
 
 
@@ -81,19 +81,19 @@ class Emprunt
     }
 
     /**
-     * @return Adherant
+     * @return Adherent
      */
-    public function getAdherant(): Adherant
+    public function getAdherent(): Adherent
     {
-        return $this->adherant;
+        return $this->adherent;
     }
 
     /**
-     * @param Adherant $adherant
+     * @param Adherent $adherent
      */
-    public function setAdherant(Adherant $adherant): void
+    public function setAdherent(Adherent $adherent): void
     {
-        $this->adherant = $adherant;
+        $this->adherent = $adherent;
     }
 
     /**

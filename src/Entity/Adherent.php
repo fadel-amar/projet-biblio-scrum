@@ -9,18 +9,18 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
 
-// todo remplacer adherant en adherent
+// todo remplacer adherent en adherent
 #[Entity]
-#[Table(name: 'Adherant')]
-class Adherant
+#[Table(name: 'Adherent')]
+class Adherent
 {
     #[Id]
     #[Column(type: 'integer')]
     #[GeneratedValue]
-    private int $id_adherant;
+    private int $id_adherent;
 
-    #[Column(name : 'numero_adherant', length: 9)]
-    private string $numeroAdherant;
+    #[Column(name : 'numero_adherent', length: 9)]
+    private string $numeroAdherent;
     #[Column(name : 'prenom',length: 100)]
     private string $prenom;
     #[Column(name : 'nom',length: 100)]
@@ -37,11 +37,11 @@ class Adherant
     }
 
     /**
-     * @param string $numeroAdherant
+     * @param string $numeroAdherent
      */
-    public function setNumeroAdherant(string $numeroAdherant): void
+    public function setNumeroAdherent(string $numeroAdherent): void
     {
-        $this->numeroAdherant = $numeroAdherant;
+        $this->numeroAdherent = $numeroAdherent;
     }
 
     /**
@@ -79,17 +79,17 @@ class Adherant
     /**
      * @return int
      */
-    public function getIdAdherant(): int
+    public function getIdAdherent(): int
     {
-        return $this->id_adherant;
+        return $this->id_adherent;
     }
 
     /**
      * @return string
      */
-    public function getNumeroAdherant(): string
+    public function getNumeroAdherent(): string
     {
-        return $this->numeroAdherant;
+        return $this->numeroAdherent;
     }
 
     /**

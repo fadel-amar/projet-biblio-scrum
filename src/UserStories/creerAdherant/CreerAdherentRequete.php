@@ -3,7 +3,7 @@ namespace  App\UserStories;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-class CreerAdherantRequete {
+class CreerAdherentRequete {
 
     #[Assert\NotBlank( message: "Le prenom est obligatoire")]
     public string $prenom;

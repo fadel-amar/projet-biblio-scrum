@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><database name="db_biblio" schema="db_biblio" type="MariaDB - 10.4.28-MariaDB">
    <tables>
-      <table catalog="db_biblio" name="adherant" numRows="1" remarks="" type="TABLE">
-         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id_adherant" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="numero_adherant" nullable="false" remarks="" size="9" type="VARCHAR" typeCode="12"/>
+      <table catalog="db_biblio" name="adherent" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id_adherent" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="numero_adherent" nullable="false" remarks="" size="9" type="VARCHAR" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="prenom" nullable="false" remarks="" size="100" type="VARCHAR" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="nom" nullable="false" remarks="" size="100" type="VARCHAR" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="email" nullable="false" remarks="" size="160" type="VARCHAR" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="date_adhesion" nullable="false" remarks="" size="10" type="DATE" typeCode="91"/>
-         <primaryKey column="id_adherant" sequenceNumberInPK="1"/>
+         <primaryKey column="id_adherent" sequenceNumberInPK="1"/>
          <index name="PRIMARY" unique="true">
-            <column ascending="true" name="id_adherant"/>
+            <column ascending="true" name="id_adherent"/>
          </index>
       </table>
    </tables>

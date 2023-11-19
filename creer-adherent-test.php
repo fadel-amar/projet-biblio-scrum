@@ -4,13 +4,13 @@ require 'bootstrap.php';
 require 'vendor/autoload.php';
 
 
-$adherant = new \App\Entity\Adherant();
-$adherant->setNumeroAdherant('AD-145614');
-$adherant->setNom('Bob');
-$adherant->setPrenom('Sandra');
-$adherant->setEmail('sb@gmail.com');
-$adherant->setDateAdhesion(new DateTime());
+$adherent = new \App\Entity\Adherent();
+$adherent->setNumeroAdherent('AD-145614');
+$adherent->setNom('Bob');
+$adherent->setPrenom('Sandra');
+$adherent->setEmail('sb@gmail.com');
+$adherent->setDateAdhesion(new DateTime());
 
 
-$entityManager->persist($adherant);
+$entityManager->persist($adherent);
 $entityManager->flush();

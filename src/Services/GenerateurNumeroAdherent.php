@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-class GenerateurNumeroAdherant
+class GenerateurNumeroAdherent
 {
-    // todo faire un test pour generatuer adherant
+    // todo faire un test pour generatuer adherent
     public function generer(): string
     {
         $numero = rand(0, 999999);

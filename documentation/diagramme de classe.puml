@@ -29,8 +29,8 @@ Class Magazine {
 - datePublication : dateTime
 }
 
-Class Adherant {
-- NoAdherant : chaine
+Class Adherent {
+- NoAdherent : chaine
 - nom  : chaine
 - prenom : chaine
 - email : chaine
@@ -49,7 +49,7 @@ Class Emprunt {
 Livre --|> Media
 BluRay --|> Media
 Magazine --|> Media
-Adherant "1..*" <-- "1..1" Emprunt : associé >
+Adherent "1..*" <-- "1..1" Emprunt : associé >
 Media "0..*" <-- "1..1" Emprunt : concerne >
 @enduml
 

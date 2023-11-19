@@ -1,12 +1,12 @@
 <?php
 
 
-use App\Entity\Adherant;
+use App\Entity\Adherent;
 
 require "bootstrap.php";
 require "vendor\autoload.php";
 
-class AdherantCrud
+class AdherentCrud
 {
 
     private $entityManager;
@@ -18,28 +18,28 @@ class AdherantCrud
     }
 
 
-    public function addAdherant(string $numeroAdherent, string $nom, string $prenom , string $email)
+    public function addAdherent(string $numeroAdherent, string $nom, string $prenom , string $email)
     {
-        $adherant = new Adherant();
-        $adherant->setNumeroAdherant($numeroAdherent);
-        $adherant->setPrenom($prenom);
-        $adherant->setNom($nom);
-        $adherant->setEmail($email);
-        $adherant->setDateAdhesion(new DateTime());
-        $this->entityManager->persist($adherant);
+        $adherent = new Adherent();
+        $adherent->setNumeroAdherent($numeroAdherent);
+        $adherent->setPrenom($prenom);
+        $adherent->setNom($nom);
+        $adherent->setEmail($email);
+        $adherent->setDateAdhesion(new DateTime());
+        $this->entityManager->persist($adherent);
         $this->entityManager->flush();
 
     }
 
     public function getAll()
     {
-        return $this->entityManager->getRepository(Adherant::class)->findAll();
+        return $this->entityManager->getRepository(Adherent::class)->findAll();
     }
 
 
-    public function deleteAdherant($idAdherent)
+    public function deleteAdherent($idAdherent)
     {
-        $adherent = $this->entityManager->getRepository(Adherant::class)->find($idAdherent);
+        $adherent = $this->entityManager->getRepository(Adherent::class)->find($idAdherent);
 
         if ($adherent) {
             $this->entityManager->remove($adherent);

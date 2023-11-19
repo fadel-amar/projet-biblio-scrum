@@ -1,5 +1,5 @@
 <?php
-namespace  App\UserStories;
+namespace App\UserStories\creerAdherant;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -12,7 +12,7 @@ class CreerAdherentRequete {
     public string $nom;
 
     #[Assert\NotBlank(message: "L'email est obligatoire")]
-    #[Assert\Email(message: "L'email {{ value}} doit est invalide :( ")]
+    #[Assert\Email(message: "L'email est invalide :( ")]
     public string $email;
 
 

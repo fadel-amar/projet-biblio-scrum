@@ -1,16 +1,16 @@
 <?php
 
-namespace App\UserStories\CreerAdherent;
+namespace App\UserStories\creerAdherant;
 
 
 use App\Entity\Adherent;
 use App\Services\GenerateurNumeroAdherent;
-use App\UserStories\CreerAdherentRequete;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class CreerAdherent {
+class CreerAdherent
+{
     // Dépendances
     private EntityManagerInterface $entityManager;
     private GenerateurNumeroAdherent $generateurNumeroAdherent;
@@ -32,17 +32,26 @@ class CreerAdherent {
     /**
      * @throws \Exception
      */
-    public function execute(CreerAdherentRequete $requete): bool {
+    public function execute(\App\UserStories\creerAdherant\CreerAdherentRequete $requete): bool
+    {
 
         // Valider les données en entrées (de la requête)
         $problemes = $this->validateur->validate($requete);
-        if(count($problemes) > 0) {
-          throw new \Exception($problemes->__toString());
+
+        if (count($problemes) > 0) {
+            $messagesErreur = [];
+
+            foreach ($problemes as $probleme) {
+                $messagesErreur[] =  $probleme->getMessage();
+            }
+
+            throw new \Exception(implode("\n", $messagesErreur));
         }
 
+
         // todo Test Vérifier que l'email n'existe pas déjà
-        $getEmailAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['email'=> $requete->email]);
-        if ( $getEmailAdherent != null ) {
+        $getEmailAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['email' => $requete->email]);
+        if ($getEmailAdherent != null) {
             throw new \Exception("L'email est déjà inscrit à un adherent");
         }
 
@@ -50,8 +59,8 @@ class CreerAdherent {
         $numeroAdherent = $this->generateurNumeroAdherent->generer();
 
         // todo Test Vérifier que le numéro n'existe pas déjà
-        $getNumeroAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['numeroAdherent'=> $numeroAdherent]);
-        if($getNumeroAdherent != null ) {
+        $getNumeroAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['numeroAdherent' => $numeroAdherent]);
+        if ($getNumeroAdherent != null) {
             throw new \Exception("Le numero adherent existe déjà");
         }
 

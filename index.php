@@ -30,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $executed = $creerAdherent->execute($requete);
         if (!$executed) {
             throw new Exception("La création d'un nouvel adhérant n'a pas pu se faire!");
+        } else {
+            $afficheFormulaire = false;
         }
-        $afficheFormulaire = false;
-        echo "Adhérent ajouté avec succès !";
 
 
     } catch (Exception $e) {
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<?php if (!$formulaire) { ?>
+<?php if ($formulaire) { ?>
 
     <form action="" method="post">
         <h1>Inscription Adherent </h1>
@@ -96,6 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="nom">Nom*</label>
         <input type="text" id="nom" name="nom" value="<?= $nom ?>">
+
+
 
 
         <label for="email">Email*</label>
@@ -113,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
 
-<?php } ?>
+<?php }?>
 
 
 </body>

@@ -45,7 +45,7 @@ class CreerAdherent
                 $messagesErreur[] =  $probleme->getMessage();
             }
 
-            throw new \Exception(implode("\n", $messagesErreur));
+            throw new \Exception(implode("<br\>", $messagesErreur));
         }
 
 

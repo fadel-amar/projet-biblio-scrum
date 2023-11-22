@@ -103,7 +103,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="email">Email*</label>
         <input type="text" id="email" name="email" value="<?= $email ?>">
 
-
         <?php if (isset($message)) echo "<label class=\"erreur-validation\">$message</label>" ?>
 
 

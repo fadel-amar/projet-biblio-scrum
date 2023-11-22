@@ -2,10 +2,18 @@
 
 namespace App\Entity;
 
-class Livre extends Media
-{
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Livre extends Media {
+
+    #[ORM\Column(type: 'string', length: 100)]
     private string $isbn;
+
+    #[ORM\Column(type: 'string', length: 100)]
     private string $auteur;
+
+    #[ORM\Column(type: 'integer')]
     private int $nbPages;
 
     public function __construct()

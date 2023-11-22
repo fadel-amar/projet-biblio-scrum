@@ -1,12 +1,13 @@
 <?php
 
 
-namespace Integrations\UserStories;
+namespace Tests\Integrations\UserStories;
 
 use App\Entity\Adherent;
 use App\Services\GenerateurNumeroAdherent;
-use App\UserStories\CreerAdherentRequete;
-use App\UserStories\CreerAdherent\CreerAdherent;
+use App\UserStories;
+use App\UserStories\creerAdherant\CreerAdherent;
+use App\UserStories\creerAdherant\CreerAdherentRequete;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,7 +59,7 @@ class CreerAdherentTest extends TestCase
 
 
     #[test]
-    public function creerAdherent_ValeursCorrectes_True()
+    public function creerAdherent_ValeursCorrectes_Vrai()
     {
         // Arrange
         $requete = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");

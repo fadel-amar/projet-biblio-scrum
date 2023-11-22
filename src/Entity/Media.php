@@ -1,17 +1,33 @@
 <?php
 namespace App\Entity;
 
-abstract class Media
-{
+
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap(["livre" => "Livre"])]
+abstract class Media {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected int $id;
+
+    #[ORM\Column(type: 'integer')]
     protected int $dureeEmprunt;
+
+    #[ORM\Column(type: 'string', length: 150)]
     protected string $titre;
+
+    #[ORM\Column(type: 'string', length: 100)]
     protected string $status;
+
+    #[ORM\Column(type: 'datetime')]
     protected \DateTime $dateCreation;
 
     public function __construct()
     {
-
     }
 
     /**

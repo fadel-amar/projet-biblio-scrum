@@ -10,10 +10,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CreerLivre
 {
 
-    private const STATUS_NOUVEAU = "Nouveau";
-    private const DUREE_EMPRUNT = 21;
-
-
     private EntityManagerInterface $entityManager;
     private ValidatorInterface $validateur;
 
@@ -57,8 +53,8 @@ class CreerLivre
         $livre->setNbPages($requete->nbPages);
         $livre->setTitre($requete->titre);
         $livre->setDateCreation($requete->dateCreation);
-        $livre->setStatus(self::STATUS_NOUVEAU);
-        $livre->setDureeEmprunt(self::DUREE_EMPRUNT);
+        $livre->setStatus("Nouveau");
+        $livre->setDureeEmprunt(21);
         // Enregistrer dans la BDD
         $this->entityManager->persist($livre);
         $this->entityManager->flush();

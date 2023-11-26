@@ -2,16 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-#[ORM\Entity]
 class Magazine extends Media
 {
-
-    #[ORM\Column(type: 'integer')]
     private int $numero;
-
-
-    #[ORM\Column(type: 'date')]
     private \DateTime $datePublication;
 
     public function __construct()
@@ -42,10 +35,12 @@ class Magazine extends Media
         return $this->datePublication;
     }
 
-
-    public function setDatePublication(string $datePublication): void
+    /**
+     * @param \DateTime $datePublication
+     */
+    public function setDatePublication(\DateTime $datePublication): void
     {
-        $this->datePublication = \DateTime::createFromFormat('d/m/Y', $datePublication) ;
+        $this->datePublication = $datePublication;
     }
 
 

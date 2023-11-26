@@ -1,21 +1,24 @@
 <?php
+namespace App\UserStories\creerMagazine;
 
-namespace App\UserStories\creerLivre;
 
-use App\Entity\Livre;
+
+use App\Entity\Magazine;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
-class CreerLivre
+class CreerMagazine
 {
 
     private const STATUS_NOUVEAU = "Nouveau";
-    private const DUREE_EMPRUNT = 21;
+    private const DUREE_EMPRUNT = 10;
 
 
     private EntityManagerInterface $entityManager;
     private ValidatorInterface $validateur;
+
+
+
 
     /**
      * @param EntityManagerInterface $entityManager
@@ -27,8 +30,9 @@ class CreerLivre
         $this->validateur = $validateur;
     }
 
-    public function execute(creerLivreRequete $requete) : bool
+    public function execute(CreerMagazineRequete $requete): bool
     {
+
         // Valider les données en entrées (de la requête)
         $problemes = $this->validateur->validate($requete);
 
@@ -42,28 +46,22 @@ class CreerLivre
             throw new \Exception(implode("<br\>", $messagesErreur));
         }
 
-        // Verifier que l' isbn ets unique
-        $isbn = $requete->isbn;
-        $isbnDB = $this->entityManager->getRepository(Livre::class)->findOneBy(['isbn' => $isbn]);
-        if ($isbnDB) {
-            throw new \Exception("L'isbn n'est pas unique");
-        }
 
-        // Créer Livre
+        // Créer Magazine
 
-        $livre = new Livre();
-        $livre->setIsbn($isbn);
-        $livre->setAuteur($requete->auteur);
-        $livre->setNbPages($requete->nbPages);
-        $livre->setTitre($requete->titre);
-        $livre->setDateCreation($requete->dateCreation);
-        $livre->setStatus(self::STATUS_NOUVEAU);
-        $livre->setDureeEmprunt(self::DUREE_EMPRUNT);
+        $magazine = new Magazine();
+        $magazine->setNumero($requete->numero);
+        $magazine->setDatePublication($requete->datePublication);
+        $magazine->setTitre($requete->titre);
+        $magazine->setDateCreation($requete->dateCreation);
+        $magazine->setStatus(self::STATUS_NOUVEAU);
+        $magazine->setDureeEmprunt(self::DUREE_EMPRUNT);
         // Enregistrer dans la BDD
-        $this->entityManager->persist($livre);
+        $this->entityManager->persist($magazine);
         $this->entityManager->flush();
 
-    return true;
+        return true;
+
 
     }
 

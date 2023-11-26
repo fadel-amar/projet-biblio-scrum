@@ -23,7 +23,7 @@ abstract class Media {
     #[ORM\Column(type: 'string', length: 100)]
     protected string $status;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'date')]
     protected \DateTime $dateCreation;
 
     public function __construct()
@@ -98,9 +98,9 @@ abstract class Media {
     /**
      * @param \DateTime $dateCreation
      */
-    public function setDateCreation(\DateTime $dateCreation): void
+    public function setDateCreation(string $dateCreation): void
     {
-        $this->dateCreation = $dateCreation;
+        $this->dateCreation = \DateTime::createFromFormat('d/m/Y', $dateCreation);
     }
 
 

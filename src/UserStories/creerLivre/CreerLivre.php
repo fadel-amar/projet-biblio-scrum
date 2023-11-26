@@ -5,7 +5,7 @@ namespace App\UserStories\creerLivre;
 use App\Entity\Livre;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Tests\Integrations\UserStories\CreerLivreTest;
+
 
 class CreerLivre
 {
@@ -23,7 +23,7 @@ class CreerLivre
         $this->validateur = $validateur;
     }
 
-    public function execute(creerLivreRequete $requete)
+    public function execute(creerLivreRequete $requete) : bool
     {
         // Valider les données en entrées (de la requête)
         $problemes = $this->validateur->validate($requete);
@@ -45,7 +45,21 @@ class CreerLivre
             throw new \Exception("L'isbn n'est pas unique");
         }
 
+        // Créer Livre
 
+        $livre = new Livre();
+        $livre->setIsbn($isbn);
+        $livre->setAuteur($requete->auteur);
+        $livre->setNbPages($requete->nbPages);
+        $livre->setTitre($requete->titre);
+        $livre->setDateCreation($requete->dateCreation);
+        $livre->setStatus("Nouveau");
+        $livre->setDureeEmprunt(21);
+        // Enregistrer dans la BDD
+        $this->entityManager->persist($livre);
+        $this->entityManager->flush();
+
+    return true;
 
     }
 

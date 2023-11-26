@@ -7,26 +7,32 @@ use Symfony\Component\Validator\Constraints as Assert;
 class creerLivreRequete
 {
 
-    #[Assert\NotBlank( message: "Isbn est obligatoire")]
+    #[Assert\NotBlank( message: "L'isbn est obligatoire")]
     public string $isbn;
+
+
+    #[Assert\NotBlank(message: "Le titre est obligatoire")]
+    public string $titre;
 
     #[Assert\NotBlank(message: "L'auteur est obligatoire")]
     public string $auteur;
 
-    #[Assert\NotBlank(message: "L'email est obligatoire")]
-    #[Assert\GreaterThan( 0 , message:"Le nombre de pages soit être supérieur à 0") ]
-    public string $nbPages;
+    #[Assert\GreaterThan( 0 , message:"Le nombre de pages doit être supérieur à 0") ]
+    #[Assert\NotBlank(message: "Le nombre de pages  est obligatoire")]
+    public int $nbPages;
 
-    /**
-     * @param string $isbn
-     * @param string $auteur
-     * @param string $nbPages
-     */
-    public function __construct(string $isbn, string $auteur, string $nbPages)
+
+    #[Assert\NotBlank(message: "La date de parution est obligatoire")]
+    public string $dateCreation;
+
+
+    public function __construct(string $isbn, string $auteur,string $titre, string $dateCreation, int $nbPages)
     {
         $this->isbn = $isbn;
         $this->auteur = $auteur;
+        $this->titre = $titre;
         $this->nbPages = $nbPages;
+        $this->dateCreation = $dateCreation;
     }
 
 

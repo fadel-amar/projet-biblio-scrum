@@ -4,7 +4,7 @@ namespace App\UserStories\creerLivre;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class creerLivreRequete
+class CreerLivreRequete
 {
 
     #[Assert\NotBlank( message: "L'isbn est obligatoire")]

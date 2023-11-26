@@ -1,0 +1,1 @@
+java -jar  .\utils\shemaSpy\schemaspy.jar -t mariadb -dp .\utils\shemaSpy\mariadb.jar -db db_biblio -host localhost -port 3306 -s db_biblio -u root -o  ..\shemaSpy-biblio

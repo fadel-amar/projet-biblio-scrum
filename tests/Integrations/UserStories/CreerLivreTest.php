@@ -97,6 +97,21 @@ class CreerLivreTest extends TestCase
     }
 
     #[test]
+    public function creerLivre_IsbnNonUnique_Exception()
+    {
+
+        // Arrange
+        $requete = new UserStories\creerLivre\creerLivreRequete("476-8769", "victor", "Le chevaleir", "12/12/2022", 120);
+        $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
+        $creerLivre->execute($requete);
+
+        // Act
+        $this->expectExceptionMessage("L'isbn n'est pas unique");
+        $resultat = $creerLivre->execute($requete);
+        // Assert
+    }
+
+    #[test]
     public function creerLivre_TitreNonFourni_Exception()
     {
 
@@ -141,7 +156,7 @@ class CreerLivreTest extends TestCase
     }
 
     #[test]
-    public function creerLivre_NombrePagesNegatifNonFourni_Exception()
+    public function creerLivre_NombrePagesNegatif_Exception()
     {
 
         // Arrange
@@ -153,9 +168,18 @@ class CreerLivreTest extends TestCase
         $resultat = $creerLivre->execute($requete);
     }
 
+    #[test]
+    public function creerLivre_NombrePagesNonFourni_Exception()
+    {
 
+        // Arrange
+        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "Victor", "Les chevaliers", "12/06/1999");
+        $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
+        // Act
+        $this->expectExceptionMessage("Le nombre de pages est obligatoire");
 
-
+        $resultat = $creerLivre->execute($requete);
+    }
 
 
 }

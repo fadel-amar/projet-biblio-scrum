@@ -1,33 +1,36 @@
 # Documentation de la User Story - Créer un Magazine
 
 ## Description
-La User Story "Créer un Livre" décrit le processus de création d'un nouveau livre dans le système de gestion de
-bibliothèque.
-### 1. Création d'un Magazine
 
-- **Objectif :** Permet de créer un nouveau magazine avec les informations nécessaires.
-
-- **Entrées :**
-    - Numéro du magazine  `int`
-    - Date de publication `string`
-    - Titre du magazine `string`
-    - Date de création `string`
-
-- **Validation :**
-    - Type : `ValidatorInterface`
-    - Vérification des données fournies pour s'assurer qu'elles sont valides.
-
-- **execute($requete): bool **
-    - Type `$requete` : `CreerMagazineRequete`
-    - Enregistrement du magazine dans la base de données sinon elle renvoie false.
-
+La User Story "Créer un Magazine" est le processus de création d'un nouveau magazine dans le système de gestion de
+bibliothèque et de l'enregistrer dans la BDD.
 
 ## Classes impliquées
 
-- `Magazine` : Classe représentant l'entité Magazine avec ses propriétés.
 - `CreerMagazine` : Classe responsable de l'exécution de la User Story.
-- `CreerMagazineRequete` : Classe représentant la requête pour la création d'un magazine avec ses propriétés (numéro,
-  date de publication, titre, date de création).
+- `Magazine` : Classe représentant l'entité Magazine avec ses propriétés.
+- `CreerMagazineRequete` : Classe représentant la requête pour la création d'un magazine avec ses propriétés.
+
+## Création d'un Magazine
+
+### Classe CreerMagazineRequete
+
+- **Entrées :**
+  - **$numero** : Nuemro du magazine  `type: string`
+  - **$titre** : Titre du Magazine `type: string`
+  - **$datePublication**: La date de publication du magazine `type: string`
+  - **$dateCreation**: La date de création du magazine `type: string`
+
+
+### Classe CreerMagazine
+
+- **Entrées :**
+  - **$validateur** : Validateur de Symfony avec les annotations actives  `type : ValidatorInterface`
+  - **entityManger** : l’entity manager paramétré pour permettre la gestion des entités avec la BDD  `type : EntityManager`
+
+- **$creerMagazine->execute($requete): bool**
+  - Type `$requete` : `CreerMagazineRequete`
+  - Enregistrement du Magazine dans la base de données sinon elle renvoie false.
 
 ## Exemple d'utilisation
 
@@ -36,7 +39,8 @@ bibliothèque.
 $creerMagazine = new CreerMagazine($entityManager, $validateur);
 
 // Création de la requête pour la création du magazine
-$requete = new CreerMagazineRequete("123", "01/01/2023", "Titre du Magazine", "01/01/2023");
+
+$requete = new CreerMagazineRequete("545345", "CNEWS", "01/11/2023", "31/10/2023");
 
 // Exécution de la User Story
 try {

@@ -2,37 +2,36 @@
 
 ## Description
 
-La User Story "Créer un Livre" décrit le processus de création d'un nouveau livre dans le système de gestion de
-bibliothèque.
-
-
-### 1. Création d'un Livre
-
-- **Objectif :** Permet de créer un nouveau livre avec les informations nécessaires.
-
-- **Entrées :**
-    - ISBN du livre `string`
-    - Auteur du livre `string`
-    - Titre du livre `string`
-    - Nombre de pages `int`
-    - Date de création `string`
-
--
-- **Validation :**
-  - Type : `ValidatorInterface`
-  - Vérification des données fournies pour s'assurer qu'elles sont valides.
-
-- **execute($requete): bool:**
-  - Type `$requete` : `CreerLivreRequete`
-  - Enregistrement du Livre dans la base de données sinon elle renvoie false.
-
-
+La User Story "Créer un Livre" est le processus de création d'un nouveau livre dans le système de gestion de
+bibliothèque et de l'enregistrer dans la BDD.
 
 ## Classes impliquées
 
 - `CreerLivre` : Classe responsable de l'exécution de la User Story.
 - `Livre` : Classe représentant l'entité Livre avec ses propriétés.
 - `CreerLivreRequete` : Classe représentant la requête pour la création d'un livre avec ses propriétés.
+
+## Création d'un Livre
+
+### Classe CreerLivreRequete
+
+- **Entrées :**
+    - **$isbn**: Identifiant unique du livre `type: string`
+    - **$auteur** Identifiant unique du livre `type: string`
+    - **$titre** : Titre du livre  `type: string`
+    - **$dateCreation** : Date création du media Livre `type: string`
+    - **$nbPages**: Le nombre de pages du livre `type: int`
+
+
+### Classe CreerLivre
+
+- **Entrées :**
+  - **$validateur** : Validateur de Symfony avec les annotations actives  `type : ValidatorInterface`
+  - **entityManger** : l’entity manager paramétré pour permettre la gestion des entités avec la BDD  `type : EntityManager`
+
+- **$creerLivre->execute($requete): bool**
+    - Type `$requete` : `CreerLivreRequete`
+    - Enregistrement du Livre dans la base de données sinon elle renvoie false.
 
 ## Exemple d'utilisation
 

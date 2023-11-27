@@ -68,7 +68,7 @@ class CreerMagazineTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete("66345", "Top Ligue", "12/07/2023", "01/07/2023");
+        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023", "01/07/2023");
 
         $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
         // Act
@@ -76,7 +76,7 @@ class CreerMagazineTest extends TestCase
         $resultat = $creerMagzine->execute($requete);
         // Assert
         $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => '66345']);
+        $magazine = $repository->findOneBy(['numero' => 66345]);
         assertNotNull($magazine);
 
     }
@@ -85,7 +85,7 @@ class CreerMagazineTest extends TestCase
     public function creerMagzine_NumeroNonFourni_Exception()
     {
         // Arrange
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(null, "Top Ligue", "12/07/2023", "01/07/2023");
+        $requete = new UserStories\creerMagazine\CreerMagazineRequete("", "Top Ligue", "12/07/2023", "01/07/2023");
 
         $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
         // Act

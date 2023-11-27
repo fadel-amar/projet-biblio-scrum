@@ -10,7 +10,7 @@ class CreerMagazineRequete
 
 
     #[Assert\NotBlank(message: "Le numero de magazine est obligatoire")]
-    public ?int $numero=null;
+    public string $numero;
 
     #[Assert\NotBlank(message: "Le titre est obligatoire")]
     public string $titre;
@@ -22,7 +22,7 @@ class CreerMagazineRequete
     #[Assert\NotBlank(message: "La date de création est obligatoire")]
     public string $dateCreation;
 
-    public function __construct(?int $numero, string $titre, string  $datePublication, string $dateCreation)
+    public function __construct(string $numero, string $titre, string  $datePublication, string $dateCreation)
     {
 
         $this->titre = $titre;

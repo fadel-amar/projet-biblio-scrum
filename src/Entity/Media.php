@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap(["livre" => "Livre"])]
+#[ORM\DiscriminatorMap(["livre" => "Livre", "magazine"=>"Magazine"])]
 abstract class Media {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -23,8 +23,8 @@ abstract class Media {
     #[ORM\Column(type: 'string', length: 100)]
     protected string $status;
 
-    #[ORM\Column(type: 'date')]
-    protected \DateTime $dateCreation;
+    #[ORM\Column(type: 'string')]
+    protected string $dateCreation;
 
     public function __construct()
     {
@@ -87,20 +87,16 @@ abstract class Media {
         $this->status = $status;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreation(): \DateTime
+
+    public function getDateCreation(): string
     {
         return $this->dateCreation;
     }
 
-    /**
-     * @param \DateTime $dateCreation
-     */
+
     public function setDateCreation(string $dateCreation): void
     {
-        $this->dateCreation = \DateTime::createFromFormat('d/m/Y', $dateCreation);
+        $this->dateCreation =  $dateCreation;
     }
 
 

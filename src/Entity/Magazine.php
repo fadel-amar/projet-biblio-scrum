@@ -2,19 +2,26 @@
 
 namespace App\Entity;
 
+
+
+use Doctrine\ORM\Mapping as ORM;
+#[ORM\Entity]
 class Magazine extends Media
 {
+
+
+    #[ORM\Column(type: 'string')]
     private int $numero;
-    private \DateTime $datePublication;
+
+    #[ORM\Column(type: 'string')]
+    private string $datePublication;
 
     public function __construct()
     {
     }
 
-    /**
-     * @return int
-     */
-    public function getNumero(): int
+
+    public function getNumero(): string
     {
         return $this->numero;
     }
@@ -22,23 +29,19 @@ class Magazine extends Media
     /**
      * @param int $numero
      */
-    public function setNumero(int $numero): void
+    public function setNumero(string $numero): void
     {
         $this->numero = $numero;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDatePublication(): \DateTime
+
+    public function getDatePublication(): string
     {
         return $this->datePublication;
     }
 
-    /**
-     * @param \DateTime $datePublication
-     */
-    public function setDatePublication(\DateTime $datePublication): void
+
+    public function setDatePublication(string $datePublication): void
     {
         $this->datePublication = $datePublication;
     }

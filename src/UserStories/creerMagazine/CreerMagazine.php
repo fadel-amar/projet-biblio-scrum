@@ -43,7 +43,7 @@ class CreerMagazine
                 $messagesErreur[] = $probleme->getMessage();
             }
 
-            throw new \Exception(implode("<br\>", $messagesErreur));
+            throw new \Exception(implode("\n", $messagesErreur));
         }
 
 

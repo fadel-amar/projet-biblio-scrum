@@ -35,13 +35,13 @@ class CreerLivre
                 $messagesErreur[] = $probleme->getMessage();
             }
 
-            throw new \Exception(implode("<br\>", $messagesErreur));
+            throw new \Exception(implode("\n", $messagesErreur));
         }
 
         // Verifier que l' isbn ets unique
         $isbn = $requete->isbn;
         $isbnDB = $this->entityManager->getRepository(Livre::class)->findOneBy(['isbn' => $isbn]);
-        if ($isbnDB) {
+        if ($isbnDB != null) {
             throw new \Exception("L'isbn n'est pas unique");
         }
 

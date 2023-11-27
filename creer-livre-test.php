@@ -10,5 +10,5 @@ $creerLivre = new \App\UserStories\creerLivre\CreerLivre($entityManager,$validat
 $requete = new \App\UserStories\creerLivre\creerLivreRequete("673-24", "Victor","Les chevaliers", "07/10/2023",120);
 
 
-$executed = $creerLivre->execute($requete);
+$resultat = $creerLivre->execute($requete);
 

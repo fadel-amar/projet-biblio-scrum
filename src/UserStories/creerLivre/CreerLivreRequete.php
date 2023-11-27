@@ -8,14 +8,14 @@ class CreerLivreRequete
 {
 
     #[Assert\NotBlank( message: "L'isbn est obligatoire")]
-    public string $isbn;
+    public ?string $isbn;
 
 
     #[Assert\NotBlank(message: "Le titre est obligatoire")]
-    public string $titre;
+    public ?string $titre;
 
     #[Assert\NotBlank(message: "L'auteur est obligatoire")]
-    public string $auteur;
+    public ?string $auteur;
 
     #[Assert\GreaterThan( 0 , message:"Le nombre de pages doit être supérieur à 0") ]
     #[Assert\NotBlank(message: "Le nombre de pages est obligatoire")]
@@ -23,10 +23,10 @@ class CreerLivreRequete
 
 
     #[Assert\NotBlank(message: "La date de parution est obligatoire")]
-    public string $dateCreation;
+    public ?string $dateCreation;
 
 
-    public function __construct(string $isbn, string $auteur,string $titre, string $dateCreation, ?int $nbPages=null)
+    public function __construct(?string $isbn, ?string $auteur, ?string $titre, ?string $dateCreation, ?int $nbPages=null)
     {
         $this->isbn = $isbn;
         $this->auteur = $auteur;
@@ -34,6 +34,9 @@ class CreerLivreRequete
         $this->nbPages = $nbPages;
         $this->dateCreation = $dateCreation;
     }
+
+
+
 
 
 

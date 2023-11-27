@@ -23,7 +23,8 @@
         "symfony/yaml": "^5.4",
         "symfony/cache": "^5.4",
         "vlucas/phpdotenv": "^5.5",
-        "symfony/validator": "^6.3"
+        "symfony/validator": "^6.3",
+        "mnapoli/silly": "^1.8"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.3",
@@ -40,4 +41,3 @@
 
     }
 }
-

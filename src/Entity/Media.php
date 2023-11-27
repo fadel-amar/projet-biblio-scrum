@@ -15,16 +15,16 @@ abstract class Media {
     protected int $id;
 
     #[ORM\Column(type: 'integer')]
-    protected int $dureeEmprunt;
+    protected ?int $dureeEmprunt;
 
     #[ORM\Column(type: 'string', length: 150)]
-    protected string $titre;
+    protected ?string $titre;
 
     #[ORM\Column(type: 'string', length: 100)]
-    protected string $status;
+    protected ?string $status;
 
     #[ORM\Column(type: 'string')]
-    protected string $dateCreation;
+    protected ?string $dateCreation;
 
     public function __construct()
     {

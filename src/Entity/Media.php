@@ -24,7 +24,7 @@ abstract class Media {
     protected ?string $status;
 
     #[ORM\Column(type: 'string')]
-    protected ?string $dateCreation;
+    protected  string $dateCreation;
 
     public function __construct()
     {

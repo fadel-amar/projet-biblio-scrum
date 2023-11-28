@@ -20,12 +20,11 @@ $app->command('biblio:add:Livre [name]', function (SymfonyStyle $io) use ($entit
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
     $titre = $io->ask("Le titre du livre: ");
     $isbn = $io->ask("L'isbn du livre: ");
-    $auteur = $io->ask("Lauteur du livre: ");
-    $dateCreation = $io->ask("Date création du livre: ");
+    $auteur = $io->ask("L'auteur du livre: ");
     $nbPages = $io->ask("Le nombre de Pages du livres: ");
 
     $creerLivre = new CreerLivre($entityManager,$validateur);
-    $requete = new creerLivreRequete($isbn, $auteur,$titre, $dateCreation,$nbPages);
+    $requete = new creerLivreRequete($isbn, $auteur,$titre, $nbPages);
 
     try {
         $resultat = $creerLivre->execute($requete);
@@ -44,11 +43,9 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
     $numero = $io->ask("Le numéro du magazine: ");
     $titre = $io->ask("Le titre du magazine: ");
     $datePublication = $io->ask("La date de publication du magazine ");
-    $dateCreation = $io->ask("La date de création du magazine: ");
-
 
     $creerMagazine = new \App\UserStories\creerMagazine\CreerMagazine($entityManager,$validateur);
-    $requete = new CreerMagazineRequete($numero,$titre ,$datePublication, $dateCreation);
+    $requete = new CreerMagazineRequete($numero,$titre ,$datePublication);
 
     try {
         $resultat = $creerMagazine->execute($requete);
@@ -59,6 +56,23 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
         $io->error("Erreur lors de la création du magazine: \n " . $e->getMessage());
     }
 });
+
+
+$app->command('biblio:list:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+    $mediaRepo = $entityManager->getRepository(\App\Entity\Media::class)->findBy(['status'=>\App\Entity\Status::STATUS_NOUVEAU]);
+    $medias = [];
+    foreach ($mediaRepo as $media ) {
+        $medias[] = ['id' => $media->getId()];
+    }
+
+    dump($medias);
+/*    $io->table($medias);*/
+
+
+
+});
+
+
 
 
 

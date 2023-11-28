@@ -6,7 +6,7 @@ use Symfony\Component\Validator\ValidatorBuilder;
 
 
 $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
-$requete = new \App\UserStories\creerMagazine\CreerMagazineRequete("545345", "CNEWS","01/11/2023", "31/10/2023");
+$requete = new \App\UserStories\creerMagazine\CreerMagazineRequete("545345", "CNEWS","01/11/2023");
 $creerLivre = new \App\UserStories\creerMagazine\CreerMagazine($entityManager,$validateur);
 
 

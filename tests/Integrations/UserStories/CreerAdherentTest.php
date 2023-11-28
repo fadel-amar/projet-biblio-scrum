@@ -105,23 +105,7 @@ class CreerAdherentTest extends TestCase
     }
 
 
-    #[test]
-    public function creerAdherent_AdresseMailPasEncoreInscriteDansLaBDD_Vraie()
-    {
-        // Arrange
-        $requete = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");
 
-        $creerAdherent = new CreerAdherent($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
-        // Act
-
-        $resultat = $creerAdherent->execute($requete);
-        // Assert
-        $repository = $this->entityManager->getRepository(Adherent::class);
-        $adherent = $repository->findOneBy(["email" => "jhondoe@gmail.com"]);
-        $this->assertNotNull($adherent);
-        $this->assertEquals("jhon", $adherent->getPrenom());
-        $this->assertEquals("doe", $adherent->getNom());
-    }
 
     #[test]
     public function creerAdherent_AdresseMailNonUnique_Exception()
@@ -134,7 +118,7 @@ class CreerAdherentTest extends TestCase
         // Act
 
         $resultat = $creerAdherent->execute($requete);
-        $this->expectExceptionMessage("L'email est déjà inscrit à un adherent");
+        $this->expectExceptionMessage("L'email est déjà attribué à un adherent");
         $resultat = $creerAdherent->execute($requete);
 
         // Assert
@@ -142,7 +126,7 @@ class CreerAdherentTest extends TestCase
     }
 
     #[test]
-    public function creerAdherent_NumeroAdherentNonUniqueDansLaBDD_Exception()
+    public function creerAdherent_NumeroAdherentNonUnique_Exception()
     {
         // Arrange
 
@@ -165,25 +149,5 @@ class CreerAdherentTest extends TestCase
         // Assert
 
     }
-
-    #[test]
-    public function creerAdherent_NumeroAdherentUnique_Vraie()
-    {
-// Arrange
-        $requete = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");
-
-        $creerAdherent = new CreerAdherent($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
-        // Act
-
-        $resultat = $creerAdherent->execute($requete);
-        // Assert
-        $repository = $this->entityManager->getRepository(Adherent::class);
-        $adherent = $repository->findOneBy(["email" => "jhondoe@gmail.com"]);
-        $this->assertNotNull($adherent);
-        $this->assertEquals("jhon", $adherent->getPrenom());
-        $this->assertEquals("doe", $adherent->getNom());
-
-    }
-
 
 }

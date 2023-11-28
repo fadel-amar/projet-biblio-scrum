@@ -106,7 +106,7 @@ class CreerAdherentTest extends TestCase
 
 
     #[test]
-    public function creerAdherent_AdresseMailPasEncoreInscrite_Vraie()
+    public function creerAdherent_AdresseMailPasEncoreInscriteDansLaBDD_Vraie()
     {
         // Arrange
         $requete = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");

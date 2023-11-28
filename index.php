@@ -30,10 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $executed = $creerAdherent->execute($requete);
         if (!$executed) {
             throw new Exception("La création d'un nouvel adhérant n'a pas pu se faire!");
-        } else {
-            $afficheFormulaire = false;
-        }
+        } else { ?>
 
+            <script>
+                alert("L'adherent à bien été inscrite")
+            </script>
+
+            <?php $formulaire = false;
+        }
 
     } catch (Exception $e) {
         $message = $e->getMessage();
@@ -85,23 +89,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<?php if ($formulaire) { ?>
+<?php if ($formulaire ) { ?>
 
     <form action="" method="post">
         <h1>Inscription Adherent </h1>
 
         <label for="prenom">Prenom*</label>
-        <input type="text" id="prenom" name="prenom" value="<?= $prenom ?>">
+        <input type="text" id="prenom" name="prenom" required="required" value="<?= $prenom ?>">
 
 
         <label for="nom">Nom*</label>
-        <input type="text" id="nom" name="nom" value="<?= $nom ?>">
-
-
+        <input type="text" id="nom" name="nom" required="required" value="<?= $nom ?>">
 
 
         <label for="email">Email*</label>
-        <input type="text" id="email" name="email" value="<?= $email ?>">
+        <input type="text" id="email" name="email" required="required"  value="<?= $email ?>">
 
         <?php if (isset($message)) echo "<label class=\"erreur-validation\">$message</label>" ?>
 

@@ -8,13 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 class Livre extends Media {
 
     #[ORM\Column(type: 'string', length: 100)]
-    private ?string $isbn;
+    private string $isbn;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private ?string $auteur;
+    private string $auteur;
 
     #[ORM\Column(type: 'integer')]
-    private ?int $nbPages;
+    private int $nbPages;
 
     public function __construct()
     {

@@ -16,7 +16,7 @@ use Symfony\Component\Validator\ValidatorBuilder;
 // Définir les commandes
 $app = new Application();
 
-$app->command('biblio:livre:add [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:add:Livre [name]', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
     $titre = $io->ask("Le titre du livre: ");
     $isbn = $io->ask("L'isbn du livre: ");
@@ -33,17 +33,13 @@ $app->command('biblio:livre:add [name]', function (SymfonyStyle $io) use ($entit
             $io->success( "Le livre a été créé avec succès!");
         }
     } catch (Exception $e) {
-        $io->error("Erreur lors de la création du livre : " . $e->getMessage());
+        $io->error("Erreur lors de la création du livre : \n" . $e->getMessage());
     }
 
 });
 
 
-
-
-
-
-$app->command('biblio:magazine:add [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
     $numero = $io->ask("Le numéro du magazine: ");
     $titre = $io->ask("Le titre du magazine: ");
@@ -60,7 +56,7 @@ $app->command('biblio:magazine:add [name]', function (SymfonyStyle $io) use ($en
             $io->success( "Le magazine a été créé avec succès!");
         }
     } catch (Exception $e) {
-        $io->error("Erreur lors de la création du magazine: " . $e->getMessage());
+        $io->error("Erreur lors de la création du magazine: \n " . $e->getMessage());
     }
 });
 

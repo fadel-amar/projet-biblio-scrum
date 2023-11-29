@@ -53,7 +53,7 @@ class CreerMagazine
         $magazine->setNumero($requete->numero);
         $magazine->setDatePublication($requete->datePublication);
         $magazine->setTitre($requete->titre);
-        $magazine->setDateCreation((new \DateTime())->format('d/m/Y'));
+        $magazine->setDateCreation(new \DateTime());
         $magazine->setStatus(Status::STATUS_NOUVEAU);
         $magazine->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_MAGAZINE);
         // Enregistrer dans la BDD

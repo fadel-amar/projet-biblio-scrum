@@ -11,8 +11,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\ValidatorBuilder;
 
 
-
-
 // Définir les commandes
 $app = new Application();
 
@@ -23,13 +21,13 @@ $app->command('biblio:add:Livre [name]', function (SymfonyStyle $io) use ($entit
     $auteur = $io->ask("L'auteur du livre: ");
     $nbPages = $io->ask("Le nombre de Pages du livres: ");
 
-    $creerLivre = new CreerLivre($entityManager,$validateur);
-    $requete = new creerLivreRequete($isbn, $auteur,$titre, $nbPages);
+    $creerLivre = new CreerLivre($entityManager, $validateur);
+    $requete = new creerLivreRequete($isbn, $auteur, $titre, $nbPages);
 
     try {
         $resultat = $creerLivre->execute($requete);
         if ($resultat) {
-            $io->success( "Le livre a été créé avec succès!");
+            $io->success("Le livre a été créé avec succès!");
         }
     } catch (Exception $e) {
         $io->error("Erreur lors de la création du livre : \n" . $e->getMessage());
@@ -44,13 +42,13 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
     $titre = $io->ask("Le titre du magazine: ");
     $datePublication = $io->ask("La date de publication du magazine ");
 
-    $creerMagazine = new \App\UserStories\creerMagazine\CreerMagazine($entityManager,$validateur);
-    $requete = new CreerMagazineRequete($numero,$titre ,$datePublication);
+    $creerMagazine = new \App\UserStories\creerMagazine\CreerMagazine($entityManager, $validateur);
+    $requete = new CreerMagazineRequete($numero, $titre, $datePublication);
 
     try {
         $resultat = $creerMagazine->execute($requete);
         if ($resultat) {
-            $io->success( "Le magazine a été créé avec succès!");
+            $io->success("Le magazine a été créé avec succès!");
         }
     } catch (Exception $e) {
         $io->error("Erreur lors de la création du magazine: \n " . $e->getMessage());
@@ -59,21 +57,15 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
 
 
 $app->command('biblio:list:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
-    $mediaRepo = $entityManager->getRepository(\App\Entity\Media::class)->findBy(['status'=>\App\Entity\Status::STATUS_NOUVEAU]);
+    $mediasRepo = $entityManager->getRepository(\App\Entity\Media::class)->findBy(['status' => \App\Entity\Status::STATUS_NOUVEAU] , ['dateCreation'=> 'DESC']);
     $medias = [];
-    foreach ($mediaRepo as $media ) {
-        $medias[] = ['id' => $media->getId()];
+    foreach ($mediasRepo as $mediaRepo) {
+        $medias[] = ['id' => $mediaRepo->getId(), 'titre' => $mediaRepo->getTitre(), 'status' => $mediaRepo->getStatus(),
+            'dateCreation' => $mediaRepo->getDateCreation(), 'type' => \get_class($mediaRepo)];
     }
 
-    dump($medias);
-/*    $io->table($medias);*/
-
-
-
+    $io->table(['id', 'titre', 'statut', 'dateCreation', 'typeMedia'],$medias);
 });
-
-
-
 
 
 $app->run();

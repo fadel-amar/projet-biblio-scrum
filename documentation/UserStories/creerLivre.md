@@ -65,10 +65,6 @@ Afin de le rendre accessible aux adhérents de la bibliothèque**
 
 
 
-### Créer un livre
-
-
-
 
 ## Exemple d'utilisation
 

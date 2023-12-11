@@ -56,14 +56,8 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
 });
 
 
-$app->command('biblio:list:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
-    $mediasRepo = $entityManager->getRepository(\App\Entity\Media::class)->findBy(['status' => \App\Entity\Status::STATUS_NOUVEAU] , ['dateCreation'=> 'DESC']);
-    $medias = [];
-    foreach ($mediasRepo as $mediaRepo) {
-        $medias[] = ['id' => $mediaRepo->getId(), 'titre' => $mediaRepo->getTitre(), 'status' => $mediaRepo->getStatus(),
-            'dateCreation' => $mediaRepo->getDateCreation(), 'type' => \get_class($mediaRepo)];
-    }
-
+$app->command('biblio:listNew:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+    $medias =( new \App\UserStories\listerNouveauxMedias\ListerNouveauxMedias($entityManager))->execute();
     $io->table(['id', 'titre', 'statut', 'dateCreation', 'typeMedia'],$medias);
 });
 

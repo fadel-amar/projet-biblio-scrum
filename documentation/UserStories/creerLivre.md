@@ -1,15 +1,17 @@
 # Documentation de la User Story - Créer un Livre
 
 ## User story
+**En tant que bibliothécaire
+Je veux créer un livre
+Afin de le rendre accessible aux adhérents de la bibliothèque**
+
 Définition : Description simple d’un besoin ou d’une attente exprimée par un utilisateur
 
 La User Story "Créer un Livre" est le processus de création d'un nouveau livre dans le système de gestion de
 bibliothèque et de l'enregistrer dans la BDD.
 
 
-**En tant que bibliothécaire
-Je veux créer un livre
-Afin de le rendre accessible aux adhérents de la bibliothèque**
+
 
 #### Critères d’acceptation
 

@@ -2,8 +2,15 @@
 
 namespace Tests\Integrations\UserStories;
 
+use App\Entity\Livre;
+use App\Entity\Magazine;
 use App\Entity\Media;
 use App\Services\GenerateurNumeroAdherent;
+use App\UserStories\creerLivre\CreerLivre;
+use App\UserStories\creerLivre\CreerLivreRequete;
+use App\UserStories\creerMagazine\CreerMagazine;
+use App\UserStories\creerMagazine\CreerMagazineRequete;
+use App\UserStories\listerNouveauxMedias\ListerNouveauxMedias;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManager;
@@ -12,6 +19,7 @@ use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
@@ -59,9 +67,58 @@ class ListerNouveauxMediasTest extends TestCase
     }
 
     #[test]
-    public function ListerNouveauxMedias_StatutNouveauMedia_Vrai() {
-        $medias =( new \App\UserStories\listerNouveauxMedias\ListerNouveauxMedias($this->entityManager))->execute();
+    public function ListerNouveauxMedias_StatutNouveauMedia_Tableaux()
+    {
+        // Arrange
+        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
+        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
+        $resultat = $creerMagzine->execute($requete);
+
+
+        $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
+        self::assertIsArray($medias);
+        self::assertNotEmpty($medias);
     }
+
+    #[test]
+    public function ListerNouveauxMedias_AucunMediaNouveau_TableauVide () {
+
+
+        $listerNouveauxMedias = new ListerNouveauxMedias($this->entityManager);
+
+        // Act
+        $execute = $listerNouveauxMedias->execute();
+
+        $this->assertIsArray($execute);
+        $this->assertEmpty($execute);
+    }
+
+    #[test]
+    public function ListerNouveauxMedias_TableauTrie_True () {
+
+        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
+        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
+        $resultat = $creerMagzine->execute($requete);
+
+        $requete = new creerLivreRequete("2-1234-5680-2", "victor", "Le chevaleir", 120);
+        $creerLivre = new CreerLivre($this->entityManager, $this->validateur);
+        $resultat = $creerLivre->execute($requete);
+
+        $repositoryLivre = $this->entityManager->getRepository(Livre::class);
+        $livre = $repositoryLivre->findOneBy(['isbn' => '2-1234-5680-2']);
+
+        $repositoryMagazine = $this->entityManager->getRepository(Magazine::class);
+        $magazine = $repositoryMagazine->findOneBy(['numero' => 66345]);
+
+
+        $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
+        dd($medias);
+
+        self::assertIsArray($medias);
+        self::assertNotEmpty($medias);
+    }
+
+
 
 
 }

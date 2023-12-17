@@ -79,7 +79,6 @@ class RendreMediaDisponibleTest extends TestCase
 
         $repository = $this->entityManager->getRepository(Magazine::class);
         $magazine = $repository->findOneBy(['numero' => 66345]);
-
         $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
 
         assertEquals(Status::STATUS_DISPONIBLE, $magazine->getStatus());

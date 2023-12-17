@@ -3,21 +3,41 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity]
 class Emprunt
 {
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
+
+    #[ORM\Column(type: 'string', length: 12, unique: true)]
+    private $numeroEmprunt;
+
+    #[ORM\Column(type: 'datetime')]
     private DateTime $dateEmprunt;
+    #[ORM\Column(type: 'datetime')]
     private DateTime $dateRetourEstime;
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $dateRetour;
-    private Adherent $adherent;
+
+    #[ORM\ManyToOne(targetEntity: "Media")]
+    #[ORM\JoinColumn(name: "media_id", referencedColumnName: "id")]
     private Media $media;
+    #[ORM\ManyToOne(targetEntity: "Adherent")]
+    #[ORM\JoinColumn(name: "adherent_id", referencedColumnName: "id_adherent")]
+    private Adherent $adherent;
 
 
     public function __construct()
     {
     }
 
-    public function empruntEnCours(): bool {
+    public function empruntEnCours(): bool
+    {
         if (!isset($this->dateRetour)) {
             return true;
         } else {
@@ -25,8 +45,9 @@ class Emprunt
         }
     }
 
-    public function empruntEnRetard() : bool {
-        if ($this->empruntEnCours() &&  (new \DateTime())> $this->dateRetourEstime){
+    public function empruntEnRetard(): bool
+    {
+        if ($this->empruntEnCours() && (new \DateTime()) > $this->dateRetourEstime) {
             return true;
         }
         return false;
@@ -111,6 +132,30 @@ class Emprunt
     {
         $this->media = $media;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getNumeroEmprunt()
+    {
+        return $this->numeroEmprunt;
+    }
+
+    /**
+     * @param mixed $numeroEmprunt
+     */
+    public function setNumeroEmprunt($numeroEmprunt): void
+    {
+        $this->numeroEmprunt = $numeroEmprunt;
+    }
+
 
 
 

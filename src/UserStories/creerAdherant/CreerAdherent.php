@@ -50,9 +50,9 @@ class CreerAdherent
 
 
         // todo Test Vérifier que l'email n'existe pas déjà
-        $getEmailAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['email' => $requete->email]);
-        if ($getEmailAdherent != null) {
-            throw new \Exception("L'email est déjà inscrit à un adherent");
+        $adherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['email' => $requete->email]);
+        if ($adherent != null) {
+            throw new \Exception("L'email est déjà attribué à un adherent");
         }
 
         // Générer un numéro d'adhérent au format AD-999999

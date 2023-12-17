@@ -68,7 +68,7 @@ class CreerMagazineTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023", "01/07/2023");
+        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
 
         $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
         // Act
@@ -85,7 +85,7 @@ class CreerMagazineTest extends TestCase
     public function creerMagzine_NumeroNonFourni_Exception()
     {
         // Arrange
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete("", "Top Ligue", "12/07/2023", "01/07/2023");
+        $requete = new UserStories\creerMagazine\CreerMagazineRequete("", "Top Ligue", "12/07/2023");
 
         $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
         // Act
@@ -100,7 +100,7 @@ class CreerMagazineTest extends TestCase
     public function creerMagzine_DatePublicationNonFourni_Exception()
     {
         // Arrange
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(23454, "Top Ligue", "", "01/07/2023");
+        $requete = new UserStories\creerMagazine\CreerMagazineRequete(23454, "Top Ligue", "");
 
         $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
         // Act
@@ -115,7 +115,7 @@ class CreerMagazineTest extends TestCase
     public function creerMagzine_TitreNonFourni_Exception()
     {
         // Arrange
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(23454, "", "12/07/2023", "01/07/2023");
+        $requete = new UserStories\creerMagazine\CreerMagazineRequete(23454, "", "12/07/2023");
 
         $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
         // Act
@@ -126,20 +126,6 @@ class CreerMagazineTest extends TestCase
 
     }
 
-    #[test]
-    public function creerMagzine_DateCreationNonFourni_Exception()
-    {
-        // Arrange
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(23454, "Top Ligue", "12/07/2023", "");
-
-        $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
-        // Act
-
-        $this->expectExceptionMessage("La date de création est obligatoire");
-
-        $resultat = $creerMagzine->execute($requete);
-
-    }
 
 
 

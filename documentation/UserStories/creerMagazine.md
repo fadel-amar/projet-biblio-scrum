@@ -1,9 +1,16 @@
 # Documentation de la User Story - Créer un Magazine
 
-## Description
+## User story
+**En tant que bibliothécaire
+Je veux créer un magazine
+Afin de le rendre accessible aux adhérents de la bibliothèque**
 
 La User Story "Créer un Magazine" est le processus de création d'un nouveau magazine dans le système de gestion de
 bibliothèque et de l'enregistrer dans la BDD.
+
+
+
+
 
 ## Classes impliquées
 
@@ -40,7 +47,7 @@ $creerMagazine = new CreerMagazine($entityManager, $validateur);
 
 // Création de la requête pour la création du magazine
 
-$requete = new CreerMagazineRequete("545345", "CNEWS", "01/11/2023", "31/10/2023");
+$requete = new CreerMagazineRequete("545345", "CNEWS", nch "01/11/2023", "31/10/2023");
 
 // Exécution de la User Story
 try {

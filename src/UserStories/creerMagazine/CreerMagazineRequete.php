@@ -19,16 +19,12 @@ class CreerMagazineRequete
     public ?string $datePublication;
 
 
-    #[Assert\NotBlank(message: "La date de création est obligatoire")]
-    public ?string $dateCreation;
-
-    public function __construct(?string $numero, ?string $titre, ?string  $datePublication, ?string $dateCreation)
+    public function __construct(?string $numero, ?string $titre, ?string  $datePublication)
     {
 
         $this->titre = $titre;
         $this->numero = $numero;
         $this->datePublication = $datePublication;
-        $this->dateCreation = $dateCreation;
     }
 
 

@@ -68,7 +68,7 @@ class CreerLivreTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("648-46465", "victor", "Le chevaleir", "12/12/2022", 120);
+        $requete = new UserStories\creerLivre\creerLivreRequete("2-1234-5680-2", "victor", "Le chevaleir", 120);
 
         $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
         // Act
@@ -76,7 +76,7 @@ class CreerLivreTest extends TestCase
         $resultat = $creerLivre->execute($requete);
         // Assert
         $repository = $this->entityManager->getRepository(Livre::class);
-        $livre = $repository->findOneBy(['isbn' => '648-46465']);
+        $livre = $repository->findOneBy(['isbn' => '2-1234-5680-2']);
         assertNotNull($livre);
 
     }
@@ -86,7 +86,7 @@ class CreerLivreTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("", "victor", "Le chevaleir", "12/12/2022", 120);
+        $requete = new UserStories\creerLivre\creerLivreRequete("", "victor", "Le chevaleir",  120);
 
         $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
         // Act
@@ -101,7 +101,7 @@ class CreerLivreTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("476-8769", "victor", "Le chevaleir", "12/12/2022", 120);
+        $requete = new UserStories\creerLivre\creerLivreRequete("2-1234-5680-2", "victor", "Le chevaleir",  120);
         $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
         $creerLivre->execute($requete);
 
@@ -116,7 +116,7 @@ class CreerLivreTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "victor", "", "12/12/2022", 120);
+        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "victor", "",  120);
 
         $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
         // Act
@@ -126,27 +126,13 @@ class CreerLivreTest extends TestCase
         // Assert
     }
 
-    #[test]
-    public function creerLivre_DateCreationNonFourni_Exception()
-    {
-
-        // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "victor", "Les chevaliers", "", 120);
-
-        $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
-        // Act
-        $this->expectExceptionMessage("La date de parution est obligatoire");
-
-        $resultat = $creerLivre->execute($requete);
-    }
-
 
     #[test]
     public function creerLivre_AuteurNonFourni_Exception()
     {
 
         // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "", "Les chevaliers", "12/06/1999", 120);
+        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "", "Les chevaliers", 120);
 
         $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
         // Act
@@ -160,7 +146,7 @@ class CreerLivreTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "Victor", "Les chevaliers", "12/06/1999", -1);
+        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "Victor", "Les chevaliers", -150);
         $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
         // Act
         $this->expectExceptionMessage("Le nombre de pages doit être supérieur à 0");
@@ -173,7 +159,7 @@ class CreerLivreTest extends TestCase
     {
 
         // Arrange
-        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "Victor", "Les chevaliers", "12/06/1999");
+        $requete = new UserStories\creerLivre\creerLivreRequete("4325-356", "Victor", "Les chevaliers");
         $creerLivre = new UserStories\creerLivre\CreerLivre($this->entityManager, $this->validateur);
         // Act
         $this->expectExceptionMessage("Le nombre de pages est obligatoire");

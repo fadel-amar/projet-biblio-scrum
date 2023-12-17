@@ -3,20 +3,19 @@ namespace App\UserStories\creerMagazine;
 
 
 
+use App\Entity\DureeEmprunt;
 use App\Entity\Magazine;
+use App\Entity\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CreerMagazine
 {
 
-    private const STATUS_NOUVEAU = "Nouveau";
-    private const DUREE_EMPRUNT = 10;
 
 
     private EntityManagerInterface $entityManager;
     private ValidatorInterface $validateur;
-
 
 
 
@@ -34,6 +33,7 @@ class CreerMagazine
     {
 
         // Valider les données en entrées (de la requête)
+
         $problemes = $this->validateur->validate($requete);
 
         if (count($problemes) > 0) {
@@ -53,9 +53,9 @@ class CreerMagazine
         $magazine->setNumero($requete->numero);
         $magazine->setDatePublication($requete->datePublication);
         $magazine->setTitre($requete->titre);
-        $magazine->setDateCreation($requete->dateCreation);
-        $magazine->setStatus(self::STATUS_NOUVEAU);
-        $magazine->setDureeEmprunt(self::DUREE_EMPRUNT);
+        $magazine->setDateCreation(new \DateTime());
+        $magazine->setStatus(Status::STATUS_NOUVEAU);
+        $magazine->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_MAGAZINE);
         // Enregistrer dans la BDD
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();

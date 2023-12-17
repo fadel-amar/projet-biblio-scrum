@@ -2,7 +2,10 @@
 
 namespace App\UserStories\creerLivre;
 
+use App\Entity\DureeEmprunt;
 use App\Entity\Livre;
+use App\Entity\Status;
+use Cassandra\Date;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -52,9 +55,9 @@ class CreerLivre
         $livre->setAuteur($requete->auteur);
         $livre->setNbPages($requete->nbPages);
         $livre->setTitre($requete->titre);
-        $livre->setDateCreation($requete->dateCreation);
-        $livre->setStatus("Nouveau");
-        $livre->setDureeEmprunt(21);
+        $livre->setDateCreation(New \DateTime());
+        $livre->setStatus(Status::STATUS_NOUVEAU);
+        $livre->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_LIVRE);
         // Enregistrer dans la BDD
         $this->entityManager->persist($livre);
         $this->entityManager->flush();

@@ -60,11 +60,30 @@ $app->command('biblio:listNew:Media [name]', function (SymfonyStyle $io) use ($e
     $medias =( new \App\UserStories\listerNouveauxMedias\ListerNouveauxMedias($entityManager))->execute();
     $mediaNoObjet = [];
     foreach ($medias as $media) {
-        $mediaNoObjet[] = [$media->getId(), $media->getTitre(), $media->getStatus(), $media->getDateCreation(), (new ReflectionClass($media))->getShortName() ];
+
+        $mediaNoObjet[] = [$media->getId(), $media->getTitre(), $media->getStatus(), $media->getDateCreation()->format('d/m/Y'), (new ReflectionClass($media))->getShortName() ];
     }
 
     $io->table(['id', 'titre', 'statut', 'dateCreation', 'typeMedia'],$mediaNoObjet);
 });
 
+
+$app->command('biblio:set:statutNouveau:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+    $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
+
+    $id = $io->ask("L'id du media que vous voulez rendre disponible");
+    try {
+        $resultat =( new \App\UserStories\rendreMediaDisponible\RendreMediaDisponible(
+            $entityManager, $validateur
+        ))->execute($id);
+        if ($resultat) {
+            $io->success("Le media a était rendu disponible");
+        }
+    } catch (Exception $e) {
+        $io->error("Erreur lors du changement du statut Media: \n " . $e->getMessage());
+    }
+
+
+});
 
 $app->run();

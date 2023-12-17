@@ -5,12 +5,14 @@ namespace Tests\Integrations\UserStories;
 use App\Entity\Livre;
 use App\Entity\Magazine;
 use App\Entity\Media;
+use App\Entity\Status;
 use App\Services\GenerateurNumeroAdherent;
 use App\UserStories\creerLivre\CreerLivre;
 use App\UserStories\creerLivre\CreerLivreRequete;
 use App\UserStories\creerMagazine\CreerMagazine;
 use App\UserStories\creerMagazine\CreerMagazineRequete;
 use App\UserStories\listerNouveauxMedias\ListerNouveauxMedias;
+use App\UserStories\rendreMediaDisponible\RendreMediaDisponible;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManager;
@@ -24,8 +26,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use function PHPUnit\Framework\assertEquals;
 
-class ListerNouveauxMediasTest extends TestCase
+class RendreMediaDisponibleTest extends TestCase
 {
 
     protected EntityManagerInterface $entityManager;
@@ -67,80 +70,79 @@ class ListerNouveauxMediasTest extends TestCase
     }
 
     #[test]
-    public function ListerNouveauxMedias_StatutNouveauMedia_Tableaux()
-    {
-        // Arrange
-        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
-        $resultat = $creerMagzine->execute($requete);
+    public function RendreMediaDisponible_MediaStatutNouveauAndValeursCorrect_True(){
 
-        $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
-        self::assertIsArray($medias);
-        self::assertNotEmpty($medias);
-    }
-
-    #[test]
-    public function ListerNouveauxMedias_AucunMediaNouveau_TableauVide () {
-
-
-        $listerNouveauxMedias = new ListerNouveauxMedias($this->entityManager);
-
-        // Act
-        $execute = $listerNouveauxMedias->execute();
-
-        $this->assertIsArray($execute);
-        $this->assertEmpty($execute);
-    }
-
-    #[test]
-    public function ListerNouveauxMedias_TableauTrie_True () {
 
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
         $resultat = $creerMagzine->execute($requete);
 
-        sleep(2);
+        $repository = $this->entityManager->getRepository(Magazine::class);
+        $magazine = $repository->findOneBy(['numero' => 66345]);
 
-        $requete = new creerLivreRequete("2-1234-5680-2", "victor", "Le chevaleir", 120);
-        $creerLivre = new CreerLivre($this->entityManager, $this->validateur);
-        $resultat = $creerLivre->execute($requete);
+        $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
 
-
-
-        $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
-        $execute = $medias[0]->getDateCreation() > $medias[1]->getDateCreation();
-
-        self::assertIsArray($medias);
-        self::assertNotEmpty($medias);
+        assertEquals(Status::STATUS_DISPONIBLE, $magazine->getStatus());
         self::assertTrue($execute);
     }
 
-
     #[test]
-    public function ListerNouveauxMedias_TableauNonTrie_Tableau () {
+    public function RendreMediaDisponible_MediaStatutDisponible_Exception()
+    {
+
 
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
         $resultat = $creerMagzine->execute($requete);
 
-        sleep(2);
+        $repository = $this->entityManager->getRepository(Magazine::class);
+        $magazine = $repository->findOneBy(['numero' => 66345]);
 
-        $requete = new creerLivreRequete("2-1234-5680-2", "victor", "Le chevaleir", 120);
-        $creerLivre = new CreerLivre($this->entityManager, $this->validateur);
-        $resultat = $creerLivre->execute($requete);
+        $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+
+        $this->expectExceptionMessage("Le media est déjà disponible");
+
+        $execute2 = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+
+        assertEquals(Status::STATUS_DISPONIBLE, $magazine->getStatus());
+    }
+    #[test]
+    public function RendreMediaDisponible_idMediaExistePAS_Exception()
+    {
 
 
+        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
+        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
+        $resultat = $creerMagzine->execute($requete);
 
-        $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
-        $execute = $medias[0]->getDateCreation() < $medias[1]->getDateCreation();
+        $repository = $this->entityManager->getRepository(Magazine::class);
+        $magazine = $repository->findOneBy(['numero' => 66345]);
 
-        self::assertIsArray($medias);
-        self::assertNotEmpty($medias);
-        self::assertFalse($execute);
+        $this->expectExceptionMessage("Le média avec l'ID fourni n'a pas été trouvé");
+        $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute(3);
+
+        self::assertNotEquals(Status::STATUS_DISPONIBLE, $magazine->getSatus());
+
     }
 
+    #[test]
+    public function RendreMediaDisponible_MediaStatutDifferentDeNouveau_Exception()
+    {
 
 
+        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
+        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
+        $resultat = $creerMagzine->execute($requete);
+
+        $repository = $this->entityManager->getRepository(Magazine::class);
+        $magazine = $repository->findOneBy(['numero' => 66345]);
+        $magazine->setStatus(Status::STATUS_EMPRUNT);
+
+        $this->expectExceptionMessage("Seul un média ayant le statut “Nouveau” peut-être rendu disponible");
+
+        $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+        self::assertNotEquals(Status::STATUS_DISPONIBLE, $magazine->getSatus());
+
+    }
 
 }
-

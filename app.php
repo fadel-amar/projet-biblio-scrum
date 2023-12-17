@@ -82,8 +82,6 @@ $app->command('biblio:set:statutNouveau:Media [name]', function (SymfonyStyle $i
     } catch (Exception $e) {
         $io->error("Erreur lors du changement du statut Media: \n " . $e->getMessage());
     }
-
-
 });
 
 $app->run();

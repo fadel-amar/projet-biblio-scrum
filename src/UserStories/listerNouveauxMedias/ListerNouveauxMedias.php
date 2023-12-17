@@ -4,6 +4,7 @@ namespace App\UserStories\listerNouveauxMedias;
 
 use Doctrine\ORM\EntityManagerInterface;
 use ReflectionClass;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ListerNouveauxMedias {
 
@@ -18,8 +19,7 @@ class ListerNouveauxMedias {
         $mediasRepo = $this->entityManager->getRepository(\App\Entity\Media::class)->findBy(['status' => \App\Entity\Status::STATUS_NOUVEAU], ['dateCreation' => 'DESC']);
         $medias = [];
         foreach ($mediasRepo as $mediaRepo) {
-            $medias[] = ['id' => $mediaRepo->getId(), 'titre' => $mediaRepo->getTitre(), 'status' => $mediaRepo->getStatus(),
-                'dateCreation' => $mediaRepo->getDateCreation(), 'type' => (new ReflectionClass($mediaRepo))->getShortName()];
+            $medias [] = $mediaRepo;
         }
         return $medias;
     }

@@ -74,7 +74,6 @@ class ListerNouveauxMediasTest extends TestCase
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
         $resultat = $creerMagzine->execute($requete);
 
-
         $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
         self::assertIsArray($medias);
         self::assertNotEmpty($medias);
@@ -100,22 +99,44 @@ class ListerNouveauxMediasTest extends TestCase
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
         $resultat = $creerMagzine->execute($requete);
 
+        sleep(3);
+
         $requete = new creerLivreRequete("2-1234-5680-2", "victor", "Le chevaleir", 120);
         $creerLivre = new CreerLivre($this->entityManager, $this->validateur);
         $resultat = $creerLivre->execute($requete);
 
-        $repositoryLivre = $this->entityManager->getRepository(Livre::class);
-        $livre = $repositoryLivre->findOneBy(['isbn' => '2-1234-5680-2']);
-
-        $repositoryMagazine = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repositoryMagazine->findOneBy(['numero' => 66345]);
 
 
         $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
-        dd($medias);
+        $execute = $medias[0]->getDateCreation() >= $medias[1]->getDateCreation();
 
         self::assertIsArray($medias);
         self::assertNotEmpty($medias);
+        self::assertTrue($execute);
+    }
+
+
+    #[test]
+    public function ListerNouveauxMedias_TableauNonTrie_Tableau () {
+
+        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
+        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
+        $resultat = $creerMagzine->execute($requete);
+
+        sleep(3);
+
+        $requete = new creerLivreRequete("2-1234-5680-2", "victor", "Le chevaleir", 120);
+        $creerLivre = new CreerLivre($this->entityManager, $this->validateur);
+        $resultat = $creerLivre->execute($requete);
+
+
+
+        $medias = (new ListerNouveauxMedias($this->entityManager))->execute();
+        $execute = $medias[0]->getDateCreation() < $medias[1]->getDateCreation();
+
+        self::assertIsArray($medias);
+        self::assertNotEmpty($medias);
+        self::assertFalse($execute);
     }
 
 

@@ -1,4 +1,4 @@
-# Documentation de la User Story - Créer un Magazine
+# Documentation de la User Story "Créer un Magazine"
 
 ## User story
 **En tant que bibliothécaire
@@ -7,9 +7,6 @@ Afin de le rendre accessible aux adhérents de la bibliothèque**
 
 La User Story "Créer un Magazine" est le processus de création d'un nouveau magazine dans le système de gestion de
 bibliothèque et de l'enregistrer dans la BDD.
-
-
-
 
 
 ## Classes impliquées

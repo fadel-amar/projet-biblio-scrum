@@ -56,7 +56,7 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
 });
 
 
-$app->command('biblio:listNew:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:listNouveau:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
     $medias =( new \App\UserStories\listerNouveauxMedias\ListerNouveauxMedias($entityManager))->execute();
     $mediaNoObjet = [];
     foreach ($medias as $media) {
@@ -68,10 +68,14 @@ $app->command('biblio:listNew:Media [name]', function (SymfonyStyle $io) use ($e
 });
 
 
-$app->command('biblio:set:statutNouveau:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:setStatut:Disponible:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
 
     $id = $io->ask("L'id du media que vous voulez rendre disponible");
+    if(!$id) {
+        $io->error("L'id du media est obligatoire");
+        return false;
+    }
     try {
         $resultat =( new \App\UserStories\rendreMediaDisponible\RendreMediaDisponible(
             $entityManager, $validateur
@@ -104,10 +108,5 @@ $app->command('biblio:add:Emprunt [name]', function (SymfonyStyle $io) use ($ent
         $io->error("Erreur lors de l'emprunt du media : \n " . $e->getMessage());
     }
 });
-
-
-
-
-
 
 $app->run();

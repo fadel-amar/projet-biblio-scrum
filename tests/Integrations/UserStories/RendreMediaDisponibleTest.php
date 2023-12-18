@@ -70,7 +70,7 @@ class RendreMediaDisponibleTest extends TestCase
     }
 
     #[test]
-    public function RendreMediaDisponible_MediaStatutNouveauAndValeursCorrect_True(){
+    public function RendreMediaDisponible_MediaStatutNouveauAndValeursCorrect_Vrai(){
 
 
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
@@ -88,7 +88,6 @@ class RendreMediaDisponibleTest extends TestCase
     #[test]
     public function RendreMediaDisponible_MediaStatutDisponible_Exception()
     {
-
 
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);

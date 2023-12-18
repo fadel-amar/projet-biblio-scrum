@@ -1,4 +1,4 @@
-# Documentation de la User Story - Créer un Livre
+# Documentation de la User Story "Créer un Livre"
 
 ## User story
 **En tant que bibliothécaire

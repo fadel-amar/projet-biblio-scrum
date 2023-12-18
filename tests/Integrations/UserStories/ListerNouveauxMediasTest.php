@@ -67,7 +67,7 @@ class ListerNouveauxMediasTest extends TestCase
     }
 
     #[test]
-    public function ListerNouveauxMedias_StatutNouveauMedia_Tableaux()
+    public function ListerNouveauxMedias_StatutNouveauMedia_Tableau()
     {
         // Arrange
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
@@ -93,7 +93,7 @@ class ListerNouveauxMediasTest extends TestCase
     }
 
     #[test]
-    public function ListerNouveauxMedias_TableauTrie_True () {
+    public function ListerNouveauxMedias_TableauTrie_Vrai () {
 
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
@@ -117,7 +117,7 @@ class ListerNouveauxMediasTest extends TestCase
 
 
     #[test]
-    public function ListerNouveauxMedias_TableauNonTrie_Tableau () {
+    public function ListerNouveauxMedias_TableauNonTrie_Faux () {
 
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);

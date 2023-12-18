@@ -1,34 +1,34 @@
-# Documentation User Story : Rendre disponible un nouveau média
+# Documentation User Story "Rendre disponible un nouveau média"
 
 ## User Story
+
 **Je souhaite rendre disponible un nouveau média
 Afin de le rendre empruntable par les adhérents de la bibliothèque**
 
-
-
 #### Critères d’acceptation
 
-1. **Média existe :**
-    - Le média que l'on souhaite rendre disponible doit exister.
+*Média existe :*
+Le média que l'on souhaite rendre disponible doit exister.
 
-2. **Statut du média :**
-    - Seul un média ayant le statut “Nouveau” peut être rendu disponible.
+*Statut du média :*
+Seul un média ayant le statut “Nouveau” peut être rendu disponible.
 
 
-## Utilisation
-### Classes impliquées
-- `RendreMediaDisponible` : Classe responsable de l'exécution de la User Story.
+---
+# Processus d'Emprunt de Média
 
-### Classe RendreMediaDisponible
+## Entrées Utilisateur
+
+- **ID du Média:** L'utilisateur sera invité à fournir l'ID du média qu'il souhaite rendre disponible.
+
+## Fonctionnement
+
 - **Entrées :**
-   - **$validateur** : Validateur  `type : ValidatorInterface`
-   - **entityManger** : l’entity manager paramétré pour permettre la gestion des entités avec la BDD  `type : EntityManager`
-
-**- **Méthode execute:**
-   - **RendreMediaDisponible->execeute($id)**
-   - **Changement statut du media****
-
-
+    - **Validation des Entrées:** Les entrées de l'utilisateur sont validées à l'aide du service de validation.
+    - **Exécution RendreMediaDisponible:** La commande utilise la classe RendreMediaDisponible pour rendre le média
+      disponible.
+    - **Message :** En fonction du résultat de la commande, un message de succès ou d'erreur est affiché à l'
+      utilisateur.
 
 
 ## Exemple d'utilisation

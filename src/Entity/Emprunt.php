@@ -15,12 +15,12 @@ class Emprunt
     private int $id;
 
     #[ORM\Column(type: 'string', length: 12, unique: true)]
-    private $numeroEmprunt;
+    private  string $numeroEmprunt;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $dateEmprunt;
     #[ORM\Column(type: 'datetime')]
-    private \DateTimeImmutable $dateRetourEstime;
+    private \DateTime $dateRetourEstime;
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $dateRetour;
 
@@ -36,11 +36,13 @@ class Emprunt
     {
     }
 
-    public function calculDateRetourEstime(\DateTime $dateEmprunt, int $dureeEmprunt)
+    public function calculDateRetourEstime( $dateEmprunt, int $dureeEmprunt): \DateTime
     {
         $interval = new \DateInterval("P{$dureeEmprunt}D");
-        $dateRetourEstime = \DateTimeImmutable::createFromMutable($dateEmprunt)->add($interval);
-        return $dateRetourEstime;
+        $dateRetourEstimeImi = \DateTimeImmutable::createFromMutable($dateEmprunt)->add($interval);
+        $dateRetourEstime = new DateTime();
+        return $dateRetourEstime->setTimestamp($dateRetourEstimeImi->getTimestamp());
+
     }
 
 
@@ -61,9 +63,6 @@ class Emprunt
         return false;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getDateEmprunt(): DateTime
     {
         return $this->dateEmprunt;
@@ -72,7 +71,7 @@ class Emprunt
     /**
      * @param DateTime $dateEmprunt
      */
-    public function setDateEmprunt(DateTime $dateEmprunt): void
+    public function setDateEmprunt(\DateTimeInterface $dateEmprunt): void
     {
         $this->dateEmprunt = $dateEmprunt;
     }
@@ -80,13 +79,13 @@ class Emprunt
     /**
      * @return DateTime
      */
-    public function getDateRetourEstime(): DateTime
+    public function getDateRetourEstime(): \DateTimeImmutable
     {
         return $this->dateRetourEstime;
     }
 
 
-    public function setDateRetourEstime(\DateTimeImmutable $dateRetourEstime): void
+    public function setDateRetourEstime(\DateTime$dateRetourEstime): void
     {
         $this->dateRetourEstime = $dateRetourEstime;
     }

@@ -39,9 +39,9 @@ Adherent
     public function AdhesionValide() :bool{
 
         $interval = (new \DateInterval("P1Y"));
-        $dateValidite = $this->dateAdhesion->add($interval);
+        $dateValidite = \DateTimeImmutable::createFromMutable($this->dateAdhesion)->add($interval);
 
-        if ($this->dateAdhesion > $dateValidite) {
+        if (new \DateTimeImmutable() > $dateValidite ) {
             return false;
         }
         return  true;

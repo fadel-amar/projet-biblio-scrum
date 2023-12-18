@@ -20,21 +20,29 @@ class Emprunt
     #[ORM\Column(type: 'datetime')]
     private DateTime $dateEmprunt;
     #[ORM\Column(type: 'datetime')]
-    private DateTime $dateRetourEstime;
+    private \DateTimeImmutable $dateRetourEstime;
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $dateRetour;
 
     #[ORM\ManyToOne(targetEntity: "Media")]
-    #[ORM\JoinColumn(name: "media_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: "id_media", referencedColumnName: "id")]
     private Media $media;
     #[ORM\ManyToOne(targetEntity: "Adherent")]
-    #[ORM\JoinColumn(name: "adherent_id", referencedColumnName: "id_adherent")]
+    #[ORM\JoinColumn(name: "id_adherent", referencedColumnName: "id")]
     private Adherent $adherent;
 
 
     public function __construct()
     {
     }
+
+    public function calculDateRetourEstime(\DateTime $dateEmprunt, int $dureeEmprunt)
+    {
+        $interval = new \DateInterval("P{$dureeEmprunt}D");
+        $dateRetourEstime = \DateTimeImmutable::createFromMutable($dateEmprunt)->add($interval);
+        return $dateRetourEstime;
+    }
+
 
     public function empruntEnCours(): bool
     {
@@ -77,10 +85,8 @@ class Emprunt
         return $this->dateRetourEstime;
     }
 
-    /**
-     * @param DateTime $dateRetourEstime
-     */
-    public function setDateRetourEstime(DateTime $dateRetourEstime): void
+
+    public function setDateRetourEstime(\DateTimeImmutable $dateRetourEstime): void
     {
         $this->dateRetourEstime = $dateRetourEstime;
     }
@@ -139,7 +145,6 @@ class Emprunt
     }
 
 
-
     /**
      * @return mixed
      */
@@ -155,8 +160,6 @@ class Emprunt
     {
         $this->numeroEmprunt = $numeroEmprunt;
     }
-
-
 
 
 }

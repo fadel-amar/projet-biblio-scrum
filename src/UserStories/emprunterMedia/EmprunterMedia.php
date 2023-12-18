@@ -6,52 +6,75 @@ use App\Entity\Emprunt;
 use App\Entity\Media;
 use App\Entity\Adherent;
 use App\Entity\Status;
+use App\Services\AdhesionValide;
 use App\Services\DateRetourEstime;
 use App\Services\GenerateurNumeroEmprunt;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EmprunterMedia
 {
     private EntityManagerInterface $entityManager;
+    private ValidatorInterface $validateur;
+    private GenerateurNumeroEmprunt $numeroEmprunt;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager,  GenerateurNumeroEmprunt $numeroEmprunt , ValidatorInterface $validateur )
     {
         $this->entityManager = $entityManager;
+        $this->validateur = $validateur;
+        $this->numeroEmprunt = $numeroEmprunt;
     }
 
 
-    public function execute(int $mediaId, string $adherentNumero): bool
-    {
-        // Récupérer le média et l'adhérent
-        $media = $this->entityManager->getRepository(Media::class)->find($mediaId);
-        $adherent = $this->entityManager->getRepository(Adherent::class)->findOneBy (['numero_adherent' => $adherentNumero]);
-        $numeroEmprunt = (new GenerateurNumeroEmprunt($this->entityManager))->execute();
+    /**
+     * @throws \Exception
+     */
+    public function execute( EmprunterMediaRequete $requete): bool {
 
-        // Vérifier l'existence du média et de l'adhérent
+        // Valider les données en entrées (de la requête)
+        $problemes = $this->validateur->validate($requete);
+
+        if (count($problemes) > 0) {
+            $messagesErreur = [];
+
+            foreach ($problemes as $probleme) {
+                $messagesErreur[] =  $probleme->getMessage();
+            }
+
+            throw new \Exception(implode("\n", $messagesErreur));
+        }
+
+
+        // Récupérer le média et l'adhérent
+        $media = $this->entityManager->getRepository(Media::class)->findOneBy(['id' => $requete->idMedia]);
+        $adherent = $this->entityManager->getRepository(Adherent::class)->findOneBy (['numero_adherent' => $requete->numeroAdherent]);
+        $numeroEmprunt = $this->numeroEmprunt->execute();
+
+        // todo Vérifier l'existence du média et de l'adhérent
         if (!$media) {
-            throw new \Exception("Media non trouvé.");
+            throw new \Exception("Le media n'est pas enregistré dans la BDD");
         }
         if (!$adherent) {
-            throw new \Exception("Adhérent non trouvé.");
+            throw new \Exception("L'adherent n'est pas enregistré dans la BDD");
         }
 
-        // Vérifier que le média est disponible
+        // todo Vérifier que le média est disponible
         if ($media->getStatus() !== Status::STATUS_DISPONIBLE) {
-            throw new \Exception("Le média n'est pas disponible.");
+            throw new \Exception("Le media n'est pas disponible");
         }
 
-        // Vérifier que le numero emprunt est unique
+        // todo Vérifier que le numero emprunt est unique
         $numeroEmpruntBDD = $this->entityManager->getRepository(Adherent::class)->findOneBy(['numero_adherent' => $numeroEmprunt]);
         if ($numeroEmpruntBDD != null) {
             throw new \Exception("Le numero d'emprunt existe déjà");
         }
 
 
-/*
-        // Vérifier la validité de l'adhésion de l'adhérent
-        if (!$adherent->isAdhesionValide()) {
-            throw new \Exception("L'adhésion de l'adhérent n'est pas valide.");
-        }*/
+        // todo Vérifier la validité de l'adhésion de l'adhérent
+
+        if (!$adherent->AdhesionValide()) {
+            throw new \Exception("L'adhésion de l'adhérent n'est plus valide");
+        }
 
         // Créer un nouvel emprunt
         $emprunt = new Emprunt();
@@ -60,7 +83,7 @@ class EmprunterMedia
         $emprunt->setDateEmprunt(new \DateTime());
         $emprunt->setNumeroEmprunt($numeroEmprunt);
 
-        $dateRetourEstime = (new DateRetourEstime())->excute($emprunt->getDateEmprunt(), $media->getDureeEmprunt());
+        $dateRetourEstime = $emprunt->calculDateRetourEstime($emprunt->getDateEmprunt(), $media->getDureeEmprunt());
         $emprunt->setDateRetourEstime($dateRetourEstime);
 
         $this->entityManager->persist($emprunt);

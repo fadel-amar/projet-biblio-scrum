@@ -84,4 +84,30 @@ $app->command('biblio:set:statutNouveau:Media [name]', function (SymfonyStyle $i
     }
 });
 
+
+$app->command('biblio:add:Emprunt [name]', function (SymfonyStyle $io) use ($entityManager) {
+    $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
+
+    $id = $io->ask("L'id du media que vous voulez empruntez");
+    $Noadherent = $io->ask("Le numero d'adherent  qui veut emprunter le media");
+    $generateurNumeroEmprunt = new \App\Services\GenerateurNumeroEmprunt($entityManager);
+    $emprunterMedia = new \App\UserStories\emprunterMedia\EmprunterMedia($entityManager, $generateurNumeroEmprunt, $validateur );
+    $emprunterMediaRequete =( new \App\UserStories\emprunterMedia\EmprunterMediaRequete($id,$Noadherent));
+
+    try {
+        $resultat =$emprunterMedia->execute($emprunterMediaRequete);
+
+        if ($resultat) {
+            $io->success("Le media a bien été emprunté");
+        }
+    } catch (Exception $e) {
+        $io->error("Erreur lors de l'emprunt du media : \n " . $e->getMessage());
+    }
+});
+
+
+
+
+
+
 $app->run();

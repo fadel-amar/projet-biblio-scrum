@@ -59,7 +59,7 @@ class CreerAdherent
         $numeroAdherent = $this->generateurNumeroAdherent->generer();
 
         // todo Test Vérifier que le numéro n'existe pas déjà
-        $getNumeroAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['numeroAdherent' => $numeroAdherent]);
+        $getNumeroAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['numero_adherent' => $numeroAdherent]);
         if ($getNumeroAdherent != null) {
             throw new \Exception("Le numero adherent existe déjà");
         }

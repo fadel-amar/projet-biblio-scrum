@@ -12,15 +12,16 @@ use Doctrine\ORM\Mapping\Table;
 // todo remplacer adherent en adherent
 #[Entity]
 #[Table(name: 'Adherent')]
-class Adherent
+class
+Adherent
 {
     #[Id]
     #[Column(type: 'integer')]
     #[GeneratedValue]
-    private int $id_adherent;
+    private int $id;
 
     #[Column(name : 'numero_adherent', length: 9)]
-    private string $numeroAdherent;
+    private string $numero_adherent;
     #[Column(name : 'prenom',length: 100)]
     private string $prenom;
     #[Column(name : 'nom',length: 100)]
@@ -35,13 +36,21 @@ class Adherent
     {
 
     }
+    public function AdhesionValide() :bool{
 
-    /**
-     * @param string $numeroAdherent
-     */
-    public function setNumeroAdherent(string $numeroAdherent): void
+        $interval = (new \DateInterval("P1Y"));
+        $dateValidite = $this->dateAdhesion->add($interval);
+
+        if ($this->dateAdhesion > $dateValidite) {
+            return false;
+        }
+        return  true;
+    }
+
+
+    public function setNumeroAdherent(string $numero_adherent): void
     {
-        $this->numeroAdherent = $numeroAdherent;
+        $this->numero_adherent = $numero_adherent;
     }
 
     /**
@@ -79,17 +88,19 @@ class Adherent
     /**
      * @return int
      */
-    public function getIdAdherent(): int
+    public function getId(): int
     {
-        return $this->id_adherent;
+        return $this->id;
     }
+
+
 
     /**
      * @return string
      */
     public function getNumeroAdherent(): string
     {
-        return $this->numeroAdherent;
+        return $this->numero_adherent;
     }
 
     /**

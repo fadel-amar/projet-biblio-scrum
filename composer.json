@@ -36,7 +36,7 @@
         "it-tests": "./vendor/bin/phpunit --testsuite Integration --testdox --colors=always",
         "updateDB" : "vendor/bin/doctrine orm:schema-tool:update --force",
         "dropTable" : "vendor/bin/doctrine orm:schema-tool:drop --force",
-        "createShemaDB": "vendor/bin/doctrine orm:schema-tool:create"
+        "createShDB": "vendor/bin/doctrine orm:schema-tool:create"
 
 
     }

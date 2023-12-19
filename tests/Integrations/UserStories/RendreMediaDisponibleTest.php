@@ -108,7 +108,6 @@ class RendreMediaDisponibleTest extends TestCase
     public function RendreMediaDisponible_idMediaExistePAS_Exception()
     {
 
-
         $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
         $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
         $resultat = $creerMagzine->execute($requete);
@@ -142,5 +141,24 @@ class RendreMediaDisponibleTest extends TestCase
         self::assertNotEquals(Status::STATUS_DISPONIBLE, $magazine->getSatus());
 
     }
+
+    #[test]
+    public function RendreMediaDisponible_idMediaNull_Exception()
+    {
+
+        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
+        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
+        $resultat = $creerMagzine->execute($requete);
+
+        $repository = $this->entityManager->getRepository(Magazine::class);
+        $magazine = $repository->findOneBy(['numero' => 66345]);
+
+        $this->expectExceptionMessage("L'id media est obligatoire");
+        $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute(null);
+
+        self::assertNotEquals(Status::STATUS_DISPONIBLE, $magazine->getSatus());
+
+    }
+
 
 }

@@ -71,6 +71,7 @@ class EmpruntTest extends TestCase
         $emprunt->setMedia($livre);
         $emprunt->setAdherent($adherent);
         $emprunt->setDateEmprunt(new \DateTime('06/09/2023'));
+        $emprunt->setDateRetour(new \DateTime("11/10/2023"));
         $emprunt->setDateRetourEstime(new \DateTime('12/10/2023'));
 
         $this->assertFalse($emprunt->empruntEnRetard());

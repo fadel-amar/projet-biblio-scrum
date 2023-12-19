@@ -56,7 +56,7 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
 });
 
 
-$app->command('biblio:listNouveau:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:listMedia:Nouveau [name]', function (SymfonyStyle $io) use ($entityManager) {
     $medias =( new \App\UserStories\listerNouveauxMedias\ListerNouveauxMedias($entityManager))->execute();
     $mediaNoObjet = [];
     foreach ($medias as $media) {
@@ -68,7 +68,7 @@ $app->command('biblio:listNouveau:Media [name]', function (SymfonyStyle $io) use
 });
 
 
-$app->command('biblio:setStatut:Disponible:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:setStatutMedia:Disponible:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
 
     $id = $io->ask("L'id du media que vous voulez rendre disponible");

@@ -24,8 +24,11 @@ class RendreMediaDisponible
     /**
      * @throws \Exception
      */
-    public function execute(int $mediaId): bool
+    public function execute(?int $mediaId): bool
     {
+        if(!$mediaId) {
+            throw new \Exception("L'id media est obligatoire");
+        }
         // Vérifier que le média existe
         $media = $this->entityManager->getRepository(Media::class)->find($mediaId);
         if ($media == null) {

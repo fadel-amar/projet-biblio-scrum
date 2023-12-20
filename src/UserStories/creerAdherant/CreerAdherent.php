@@ -49,7 +49,6 @@ class CreerAdherent
         }
 
 
-        // todo Test Vérifier que l'email n'existe pas déjà
         $adherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['email' => $requete->email]);
         if ($adherent != null) {
             throw new \Exception("L'email est déjà attribué à un adherent");
@@ -58,7 +57,6 @@ class CreerAdherent
         // Générer un numéro d'adhérent au format AD-999999
         $numeroAdherent = $this->generateurNumeroAdherent->generer();
 
-        // todo Test Vérifier que le numéro n'existe pas déjà
         $getNumeroAdherent = $this->entityManager->getRepository(Adherent::class)->findOneBy(['numero_adherent' => $numeroAdherent]);
         if ($getNumeroAdherent != null) {
             throw new \Exception("Le numero adherent existe déjà");

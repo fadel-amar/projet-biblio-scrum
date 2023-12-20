@@ -34,6 +34,7 @@ class Emprunt
 
     public function __construct()
     {
+        $this->dateRetour = null;
     }
 
     public function calculDateRetourEstime( $dateEmprunt, int $dureeEmprunt): \DateTime
@@ -76,10 +77,7 @@ class Emprunt
         $this->dateEmprunt = $dateEmprunt;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDateRetourEstime(): \DateTimeImmutable
+    public function getDateRetourEstime(): \DateTime
     {
         return $this->dateRetourEstime;
     }

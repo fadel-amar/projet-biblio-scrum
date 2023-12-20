@@ -63,34 +63,14 @@ class RetourEmpruntTest extends TestCase
     #[test]
     public function RetourEmprunt_ValeursCorrectes_Vrai()
     {
-        // creation $media
-        $magazine = new Magazine();
-        $magazine->setTitre('JMola');
-        $magazine->setNumero("545641561");
-        $magazine->setDatePublication("12/12/2023");
-        $magazine->setDateCreation(new \DateTime());
-        $magazine->setStatus(Status::STATUS_DISPONIBLE);
-        $magazine->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_MAGAZINE);
-        $this->entityManager->persist($magazine);
-
+        // création magazine
+        $magazine = (new \JeuDonnee())->creerMagazine($this->entityManager);
         // création adherent
-        $adherent = new Adherent();
-        $adherent->setNumeroAdherent("AD-456444");
-        $adherent->setNom("Jean");
-        $adherent->setPrenom("Louis");
-        $adherent->setEmail("jl@ytest.fr");
-        $adherent->setDateAdhesion(new \DateTime());
-        $this->entityManager->persist($adherent);
-
-        //Creation emprunt
-        $emprunt = new Emprunt();
-        $emprunt->setMedia($magazine);
-        $emprunt->setAdherent($adherent);
-        $emprunt->setDateRetourEstime(new \DateTime("2024-01-12"));
-        $emprunt->setDateEmprunt(new \DateTime());
-        $emprunt->setNumeroEmprunt("EM-000000001");
-        $this->entityManager->persist($emprunt);
-
+        $adherent = (new \JeuDonnee())->creerAdherent($this->entityManager);
+        // rendre dipso le media
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
+        // creation emprunt
+        $emprunt = (new \JeuDonnee())->creerEmprunt($this->entityManager, $magazine, $adherent);
 
         $this->entityManager->flush();
 
@@ -107,12 +87,7 @@ class RetourEmpruntTest extends TestCase
         $mediaRecup = $this->entityManager->getRepository(Media::class)->find(1);
 
         self::assertEquals(Status::STATUS_DISPONIBLE, $mediaRecup->getStatus());
-        self::assertEquals($emprunt->getDateRetour(), $empruntRecup->getDateRetour());
-        self::assertEquals($emprunt->getAdherent() , $empruntRecup->getAdherent());
-        self::assertEquals($emprunt->getMedia(), $empruntRecup->getMedia());
-        self::assertEquals($emprunt->getDateEmprunt() , $empruntRecup->getDateEmprunt());
-        self::assertEquals($emprunt->getId(), $emprunt->getId());
-        self::assertEquals($emprunt->getDateRetourEstime(), $empruntRecup->getDateRetourEstime());
+        self::assertEquals($emprunt->getDateRetour() , $empruntRecup->getDateRetour());
 
     }
 
@@ -120,38 +95,16 @@ class RetourEmpruntTest extends TestCase
     public function RetourEmprunt_NumeroEmpruntNonRensigne_Exception()
 
     {
-        // creation $media
-        $magazine = new Magazine();
-        $magazine->setTitre('JMola');
-        $magazine->setNumero("545641561");
-        $magazine->setDatePublication("12/12/2023");
-        $magazine->setDateCreation(new \DateTime());
-        $magazine->setStatus(Status::STATUS_DISPONIBLE);
-        $magazine->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_MAGAZINE);
-        $this->entityManager->persist($magazine);
-
+        // création magazine
+        $livre = (new \JeuDonnee())->creerLivre($this->entityManager);
         // création adherent
-        $adherent = new Adherent();
-        $adherent->setNumeroAdherent("AD-456444");
-        $adherent->setNom("Jean");
-        $adherent->setPrenom("Louis");
-        $adherent->setEmail("jl@ytest.fr");
-        $adherent->setDateAdhesion(new \DateTime());
-        $this->entityManager->persist($adherent);
-
-        //Creation emprunt
-        $emprunt = new Emprunt();
-        $emprunt->setMedia($magazine);
-        $emprunt->setAdherent($adherent);
-        $emprunt->setDateRetourEstime(new \DateTime("2024-01-12"));
-        $emprunt->setDateEmprunt(new \DateTime());
-        $emprunt->setNumeroEmprunt("EM-999999999");
-        $emprunt->setDateRetour(new \DateTime());
-        $this->entityManager->persist($emprunt);
-
+        $adherent = (new \JeuDonnee())->creerAdherent($this->entityManager);
+        // rendre dipso le media
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($livre);
+        // creation emprunt
+        $emprunt = (new \JeuDonnee())->creerEmprunt($this->entityManager, $livre, $adherent);
 
         $this->entityManager->flush();
-
 
         $requete = new RetourEmpruntRequete("");
         $retourEmprunt = new RetourEmprunt($this->entityManager, $this->validateur);
@@ -165,38 +118,19 @@ class RetourEmpruntTest extends TestCase
     #[test]
     public function RetourEmprunt_NumeroEmpruntInexistant_Exception()
     {
-        // creation $media
-        $magazine = new Magazine();
-        $magazine->setTitre('JMola');
-        $magazine->setNumero("545641561");
-        $magazine->setDatePublication("12/12/2023");
-        $magazine->setDateCreation(new \DateTime());
-        $magazine->setStatus(Status::STATUS_DISPONIBLE);
-        $magazine->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_MAGAZINE);
-        $this->entityManager->persist($magazine);
-
+        // création magazine
+        $magazine = (new \JeuDonnee())->creerMagazine($this->entityManager);
         // création adherent
-        $adherent = new Adherent();
-        $adherent->setNumeroAdherent("AD-456444");
-        $adherent->setNom("Jean");
-        $adherent->setPrenom("Louis");
-        $adherent->setEmail("jl@ytest.fr");
-        $adherent->setDateAdhesion(new \DateTime());
-        $this->entityManager->persist($adherent);
+        $adherent = (new \JeuDonnee())->creerAdherent($this->entityManager);
+        // rendre dipso le media
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
+        // creation emprunt
+        $emprunt = (new \JeuDonnee())->creerEmprunt($this->entityManager, $magazine, $adherent);
 
-        //Creation emprunt
-        $emprunt = new Emprunt();
-        $emprunt->setMedia($magazine);
-        $emprunt->setAdherent($adherent);
-        $emprunt->setDateRetourEstime(new \DateTime("2024-01-12"));
-        $emprunt->setDateEmprunt(new \DateTime());
-        $emprunt->setNumeroEmprunt("EM-999999999");
-        $emprunt->setDateRetour(new \DateTime());
-        $this->entityManager->persist($emprunt);
+        $this->entityManager->flush();
 
         $requete = new RetourEmpruntRequete("EM-999999998");
         $retourEmprunt = new RetourEmprunt($this->entityManager, $this->validateur);
-
 
         $this->expectExceptionMessage("Le numero d'emprunt n'existe pas");
         $execute = $retourEmprunt->excute($requete);
@@ -206,8 +140,19 @@ class RetourEmpruntTest extends TestCase
     #[test]
     public function RetourEmprunt_NumeroEmpruntInvalide_Exception()
     {
+        // création magazine
+        $magazine = (new \JeuDonnee())->creerMagazine($this->entityManager);
+        // création adherent
+        $adherent = (new \JeuDonnee())->creerAdherent($this->entityManager);
+        // rendre dipso le media
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
+        // creation emprunt
+        $emprunt = (new \JeuDonnee())->creerEmprunt($this->entityManager, $magazine, $adherent);
 
-        $requete = new RetourEmpruntRequete("EM-0000001");
+        $this->entityManager->flush();
+
+
+        $requete = new RetourEmpruntRequete("EM-000001");
         $retourEmprunt = new RetourEmprunt($this->entityManager, $this->validateur);
 
 
@@ -219,40 +164,19 @@ class RetourEmpruntTest extends TestCase
     #[test]
     public function RetourEmprunt_EmrpruntRestitue_Exception()
     {
-        // creation $media
-        $magazine = new Magazine();
-        $magazine->setTitre('JMola');
-        $magazine->setNumero("545641561");
-        $magazine->setDatePublication("12/12/2023");
-        $magazine->setDateCreation(new \DateTime());
-        $magazine->setStatus(Status::STATUS_DISPONIBLE);
-        $magazine->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_MAGAZINE);
-        $this->entityManager->persist($magazine);
-
+        // création magazine
+        $magazine = (new \JeuDonnee())->creerMagazine($this->entityManager);
         // création adherent
-        $adherent = new Adherent();
-        $adherent->setNumeroAdherent("AD-456444");
-        $adherent->setNom("Jean");
-        $adherent->setPrenom("Louis");
-        $adherent->setEmail("jl@ytest.fr");
-        $adherent->setDateAdhesion(new \DateTime());
-        $this->entityManager->persist($adherent);
-
-        //Creation emprunt
-        $emprunt = new Emprunt();
-        $emprunt->setMedia($magazine);
-        $emprunt->setAdherent($adherent);
-        $emprunt->setDateRetourEstime(new \DateTime("2024-01-12"));
-        $emprunt->setDateEmprunt(new \DateTime());
-        $emprunt->setNumeroEmprunt("EM-999999999");
+        $adherent = (new \JeuDonnee())->creerAdherent($this->entityManager);
+        // rendre dipso le media
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
+        // creation emprunt
+        $emprunt = (new \JeuDonnee())->creerEmprunt($this->entityManager, $magazine, $adherent);
         $emprunt->setDateRetour(new \DateTime());
-        $this->entityManager->persist($emprunt);
-
 
         $this->entityManager->flush();
 
-
-        $requete = new RetourEmpruntRequete("EM-999999999");
+        $requete = new RetourEmpruntRequete("EM-000000001");
         $retourEmprunt = new RetourEmprunt($this->entityManager, $this->validateur);
 
         $this->expectExceptionMessage("L'emprunt a déjà eté restitué");

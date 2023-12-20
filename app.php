@@ -14,7 +14,7 @@ use Symfony\Component\Validator\ValidatorBuilder;
 // Définir les commandes
 $app = new Application();
 
-$app->command('biblio:add:Livre [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:add:Livre', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
     $titre = $io->ask("Le titre du livre: ");
     $isbn = $io->ask("L'isbn du livre: ");
@@ -36,7 +36,7 @@ $app->command('biblio:add:Livre [name]', function (SymfonyStyle $io) use ($entit
 });
 
 
-$app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:add:Magazine', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
     $numero = $io->ask("Le numéro du magazine: ");
     $titre = $io->ask("Le titre du magazine: ");
@@ -56,13 +56,13 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
 });
 
 
-$app->command('biblio:listMedia:Nouveau [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:listMedia:Nouveau', function (SymfonyStyle $io) use ($entityManager) {
     $medias =( new \App\UserStories\listerNouveauxMedias\ListerNouveauxMedias($entityManager))->execute();
     $io->table(['id', 'titre', 'statut', 'dateCreation', 'typeMedia'],$medias);
 });
 
 
-$app->command('biblio:setStatutMedia:Disponible:Media [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:setStatutMedia:Disponible:Media', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
 
     $id = $io->ask("L'id du media que vous voulez rendre disponible");
@@ -83,7 +83,7 @@ $app->command('biblio:setStatutMedia:Disponible:Media [name]', function (Symfony
 });
 
 
-$app->command('biblio:add:Emprunt [name]', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:add:Emprunt', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
 
     $id = $io->ask("L'id du media que vous voulez empruntez");
@@ -100,6 +100,26 @@ $app->command('biblio:add:Emprunt [name]', function (SymfonyStyle $io) use ($ent
         }
     } catch (Exception $e) {
         $io->error("Erreur lors de l'emprunt du media : \n " . $e->getMessage());
+    }
+});
+
+
+$app->command('biblio:rendre:Emprunt', function (SymfonyStyle $io) use ($entityManager) {
+    $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
+
+    $numeroEmprunt = $io->ask("Le numero d'emprunt que vous vous voulez retourner");
+
+    $requete = new \App\UserStories\retourEmprunt\RetourEmpruntRequete($numeroEmprunt);
+    $rendreEmprunt = new \App\UserStories\retourEmprunt\RetourEmprunt($entityManager, $validateur);
+
+    try {
+        $resultat =$rendreEmprunt->excute($requete);
+
+        if ($resultat) {
+            $io->success("L'emprunt à bien été rendu");
+        }
+    } catch (Exception $e) {
+        $io->error("Erreur l'emprunt n'a pas pu être rendu \n " . $e->getMessage());
     }
 });
 

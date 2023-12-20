@@ -70,15 +70,15 @@ class RendreMediaDisponibleTest extends TestCase
     }
 
     #[test]
-    public function RendreMediaDisponible_MediaStatutNouveauAndValeursCorrect_Vrai(){
+    public function RendreMediaDisponible_MediaStatutNouveauAndValeursCorrect_Vrai()
+    {
+        // création magazine
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
 
-
-        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
-        $resultat = $creerMagzine->execute($requete);
+        $this->entityManager->flush();
 
         $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
+        $magazine = $repository->findOneBy(['numero' => 545641561]);
         $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
 
         assertEquals(Status::STATUS_DISPONIBLE, $magazine->getStatus());
@@ -88,32 +88,32 @@ class RendreMediaDisponibleTest extends TestCase
     #[test]
     public function RendreMediaDisponible_MediaStatutDisponible_Exception()
     {
-
-        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
-        $resultat = $creerMagzine->execute($requete);
+        // création magazine
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+        $magazine->setStatus(Status::STATUS_DISPONIBLE);
+        $this->entityManager->flush();
 
         $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
-
-        $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+        $magazine = $repository->findOneBy(['numero' => 545641561]);
 
         $this->expectExceptionMessage("Le media est déjà disponible");
-
-        $execute2 = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+        $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
 
         assertEquals(Status::STATUS_DISPONIBLE, $magazine->getStatus());
-    }
-    #[test]
-    public function RendreMediaDisponible_idMediaExistePAS_Exception()
-    {
 
-        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
-        $resultat = $creerMagzine->execute($requete);
+    }
+
+    #[test]
+    public function RendreMediaDisponible_MediaExistePAS_Exception()
+    {
+        // création magazine
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+
+        $this->entityManager->flush();
+
 
         $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
+        $magazine = $repository->findOneBy(['numero' => 545641561]);
 
         $this->expectExceptionMessage("Le média avec l'ID fourni n'a pas été trouvé");
         $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute(3);
@@ -126,14 +126,14 @@ class RendreMediaDisponibleTest extends TestCase
     public function RendreMediaDisponible_MediaStatutDifferentDeNouveau_Exception()
     {
 
+        // création magazine
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+        $magazine->setStatus(Status::STATUS_EMPRUNT);
 
-        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
-        $resultat = $creerMagzine->execute($requete);
+        $this->entityManager->flush();
 
         $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
-        $magazine->setStatus(Status::STATUS_EMPRUNT);
+        $magazine = $repository->findOneBy(['numero' => 545641561]);
 
         $this->expectExceptionMessage("Seul un média ayant le statut “Nouveau” peut-être rendu disponible");
 
@@ -145,13 +145,12 @@ class RendreMediaDisponibleTest extends TestCase
     #[test]
     public function RendreMediaDisponible_idMediaNull_Exception()
     {
-
-        $requete = new CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new CreerMagazine($this->entityManager, $this->validateur);
-        $resultat = $creerMagzine->execute($requete);
+        // création magazine
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+        $this->entityManager->flush();
 
         $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
+        $magazine = $repository->findOneBy(['numero' => 545641561]);
 
         $this->expectExceptionMessage("L'id media est obligatoire");
         $execute = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute(null);

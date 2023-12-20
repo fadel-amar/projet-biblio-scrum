@@ -19,8 +19,10 @@ class ListerNouveauxMedias {
         $medias = $this->entityManager->getRepository(\App\Entity\Media::class)->findBy(['status' => \App\Entity\Status::STATUS_NOUVEAU], ['dateCreation' => 'DESC']);
         $mediasFiltre = [];
         foreach ($medias as $media) {
-            $mediasFiltre [] = [$media->getId(), $media->getTitre(), $media->getStatus(), $media->getDateCreation()->format('d/m/Y'), (new ReflectionClass($media))->getShortName() ];;
+            $mediasFiltre [] = ["id" =>$media->getId(), "titre" =>$media->getTitre(),
+                "statut" => $media->getStatus(),"dateCreation" =>  $media->getDateCreation()->format('d/m/Y h:i:s'), "type"=> (new ReflectionClass($media))->getShortName() ];;
         }
+
         return $mediasFiltre;
     }
 

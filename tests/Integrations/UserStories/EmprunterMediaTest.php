@@ -72,20 +72,16 @@ class EmprunterMediaTest extends TestCase
     public function EmprunterMedia_ValeursCorrectes_Vrai()
     {
         // création magazine
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
-        $creerMagzine->execute($requete);
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+
 
         // création adherent
-        $requete2 = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");
-        $creerAdherent = new CreerAdherent($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
-        $creerAdherent->execute($requete2);
-
+        $adherent = (new \JeuDonnee())->CreerAdherent($this->entityManager);
 
         // rendre dipso le media
-        $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
-        $dispo = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
+
+        $this->entityManager->flush();
 
         // récupérer le numero adherent
         $adherent = $this->entityManager->getRepository(Adherent::class)->find($magazine->getId());
@@ -103,14 +99,12 @@ class EmprunterMediaTest extends TestCase
     public function EmprunterMedia_AdherentNonRenseigne_Exception()
     {
         // création magazine
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
-        $creerMagzine->execute($requete);
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
 
         // rendre dipso le media
-        $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
-        $dispo = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
+
+        $this->entityManager->flush();
 
         $empruntMediaRequete = new UserStories\emprunterMedia\EmprunterMediaRequete($magazine->getId(), "");
         $EmprunterMedia = new UserStories\emprunterMedia\EmprunterMedia($this->entityManager, $this->generateurNumeroEmprunt, $this->validateur);
@@ -124,14 +118,13 @@ class EmprunterMediaTest extends TestCase
     public function EmprunterMedia_MediaNonRenseigne_Exception()
     {
         // création magazine
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
-        $creerMagzine->execute($requete);
-
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+        // création adherent
+        $adherent = (new \JeuDonnee())->CreerAdherent($this->entityManager);
         // rendre dipso le media
-        $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
-        $dispo = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
+
+        $this->entityManager->flush();
 
         $empruntMediaRequete = new UserStories\emprunterMedia\EmprunterMediaRequete(null, "AD-1561651");
         $EmprunterMedia = new UserStories\emprunterMedia\EmprunterMedia($this->entityManager, $this->generateurNumeroEmprunt, $this->validateur);
@@ -144,18 +137,17 @@ class EmprunterMediaTest extends TestCase
     #[test]
     public function EmprunterMedia_AdherentExistePas_Exception()
     {
-        // creation magazine
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
-        $creerMagzine->execute($requete);
+        // création magazine
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+        // création adherent
+        $adherent = (new \JeuDonnee())->CreerAdherent($this->entityManager);
+        // rendre dipso le media
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
 
-        // rendre dispo media
-        $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
-        $dispo = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+        $this->entityManager->flush();
 
         // Emprunt media
-        $empruntMediaRequete = new UserStories\emprunterMedia\EmprunterMediaRequete($magazine->getId(), "AD-41564326");
+        $empruntMediaRequete = new UserStories\emprunterMedia\EmprunterMediaRequete($magazine->getId(), "AD-4156432");
         $EmprunterMedia = new UserStories\emprunterMedia\EmprunterMedia($this->entityManager, $this->generateurNumeroEmprunt, $this->validateur);
 
         //assert
@@ -167,10 +159,11 @@ class EmprunterMediaTest extends TestCase
     #[test]
     public function EmprunterMedia_MediaExistePas_Exception()
     {
-        // Création adhérent
-        $requete2 = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");
-        $creerAdherent = new CreerAdherent($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
-        $creerAdherent->execute($requete2);
+        // création adherent
+        $adherent = (new \JeuDonnee())->CreerAdherent($this->entityManager);
+        // rendre dipso le media
+
+        $this->entityManager->flush();
 
         // récupérer le numero adherent
         $adherent = $this->entityManager->getRepository(Adherent::class)->find(1);
@@ -188,21 +181,13 @@ class EmprunterMediaTest extends TestCase
     #[test]
     public function EmprunterMedia_MediaNonDisponible_Exception()
     {
-        // Création magazine
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
-        $creerMagzine->execute($requete);
+        // création magazine
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
+        // création adherent
+        $adherent = (new \JeuDonnee())->CreerAdherent($this->entityManager);
 
+        $this->entityManager->flush();
 
-        // Création adherent
-        $requete2 = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");
-        $creerAdherent = new CreerAdherent($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
-        $creerAdherent->execute($requete2);
-
-
-        // rendre dispo media
-        $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
 
         // récupérer le numero adherent
         $adherent = $this->entityManager->getRepository(Adherent::class)->find($magazine->getId());
@@ -222,23 +207,15 @@ class EmprunterMediaTest extends TestCase
     public function EmprunterMedia_AdherentAdhesionNonValide_Exception()
     {
         // création magazine
-        $requete = new UserStories\creerMagazine\CreerMagazineRequete(66345, "Top Ligue", "12/07/2023");
-        $creerMagzine = new UserStories\creerMagazine\CreerMagazine($this->entityManager, $this->validateur);
-        $creerMagzine->execute($requete);
+        $magazine = (new \JeuDonnee())->CreerMagazine($this->entityManager);
 
         // création adherent
-        $requete2 = new CreerAdherentRequete("jhon", "doe", "jhondoe@gmail.com");
-        $creerAdherent = new CreerAdherent($this->entityManager, $this->generateurNumeroAdherent, $this->validateur);
-        $creerAdherent->execute($requete2);
-
-
+        $adherent = (new \JeuDonnee())->CreerAdherent($this->entityManager);
         // rendre dipso le media
-        $repository = $this->entityManager->getRepository(Magazine::class);
-        $magazine = $repository->findOneBy(['numero' => 66345]);
-        $dispo = (new RendreMediaDisponible($this->entityManager, $this->validateur))->execute($magazine->getId());
+
+        $rendreDispoMedia = (new \JeuDonnee())->rendreDispoMedia($magazine);
 
         // récupérer le numero adherent et changer la date Adhesion
-        $adherent = $this->entityManager->getRepository(Adherent::class)->find(1);
         $numeroAdherent = $adherent->getNumeroAdherent();
         $adherent->setDateAdhesion(new \DateTime('2021-12-18'));
         $this->entityManager->flush();

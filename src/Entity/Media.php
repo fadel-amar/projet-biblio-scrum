@@ -88,7 +88,7 @@ abstract class Media {
     }
 
 
-    public function getDateCreation(): ?\DateTime
+    public function getDateCreation()
     {
         return $this->dateCreation;
     }

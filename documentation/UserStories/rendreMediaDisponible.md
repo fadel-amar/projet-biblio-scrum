@@ -31,6 +31,19 @@ Seul un média ayant le statut “Nouveau” peut être rendu disponible.
       utilisateur.
 
 
+## Tests
+ ````batch
+./vendor/bin/phpunit --testsuite Integration --testdox --colors=always tests/Integrations/UserStories/RendreMediaDisponibleTest.php
+````
+
+
+## Commande silly
+ ````batch
+php app.php biblio:setStatutMedia:Disponible
+
+````
+
+
 ## Exemple d'utilisation
 
 ```php

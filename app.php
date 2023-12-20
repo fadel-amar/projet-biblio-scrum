@@ -62,7 +62,7 @@ $app->command('biblio:listMedia:Nouveau', function (SymfonyStyle $io) use ($enti
 });
 
 
-$app->command('biblio:setStatutMedia:Disponible:Media', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:setStatutMedia:Disponible', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
 
     $id = $io->ask("L'id du media que vous voulez rendre disponible");
@@ -104,7 +104,7 @@ $app->command('biblio:add:Emprunt', function (SymfonyStyle $io) use ($entityMana
 });
 
 
-$app->command('biblio:rendre:Emprunt', function (SymfonyStyle $io) use ($entityManager) {
+$app->command('biblio:retour:Emprunt', function (SymfonyStyle $io) use ($entityManager) {
     $validateur = (new ValidatorBuilder())->enableAnnotationMapping()->getValidator();
 
     $numeroEmprunt = $io->ask("Le numero d'emprunt que vous vous voulez retourner");

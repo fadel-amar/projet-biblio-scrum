@@ -36,6 +36,16 @@ bibliothèque et de l'enregistrer dans la BDD.
   - Type `$requete` : `CreerMagazineRequete`
   - Enregistrement du Magazine dans la base de données sinon elle renvoie false.
 
+## Tests 
+```batch
+./vendor/bin/phpunit --testsuite Integration --testdox --colors=always tests/Integrations/UserStories/CreerMagazineTest.php
+```
+
+## Commande silly 
+````batch
+php app.php biblio:add:Magazine 
+````
+
 ## Exemple d'utilisation
 
 ```php

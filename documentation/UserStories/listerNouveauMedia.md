@@ -43,6 +43,15 @@ nouveaux medias.
 - `ListerNouveauxMedias` : Classe responsable de l'exécution de la User Story.
 - `sortie` : Tableau Objets Medias
 
+## Tests
+````batch
+./vendor/bin/phpunit --testsuite Integration --testdox --colors=always tests/Integrations/UserStories/ListerNouveauxMediasTest.php
+````
+
+## Commande silly 
+````batch
+php app.php biblio:listMedia:Nouveau 
+````
 
 
 ## Exemple d'utilisation

@@ -51,6 +51,16 @@ Pour enregistrer l’emprunt, le bibliothécaire aura besoin de l’id du média
    utilisateur.
 
 
+## Tests
+````batch
+./vendor/bin/phpunit --testsuite Integration --testdox --colors=always tests/Integrations/UserStories/EmprunterMediaTest.php
+````
+
+## Commande silly
+````batch
+php app.php biblio:add:Emprunt
+````
+
 ## Exemple Utilisation
 ```php
 

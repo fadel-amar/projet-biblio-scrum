@@ -13,7 +13,7 @@ bibliothèque et de l'enregistrer dans la BDD.
 
 
 
-#### Critères d’acceptation
+## Critères d’acceptation
 
 * Validation des données
   * Le titre, l’ISBN, l’auteur, le nombre de pages et la date de parution doivent être renseignés.
@@ -65,6 +65,16 @@ bibliothèque et de l'enregistrer dans la BDD.
     - Type `$requete` : `CreerLivreRequete`
     - Enregistrement du Livre dans la base de données sinon elle renvoie false.
 
+
+### Tests 
+````batch
+./vendor/bin/phpunit --testsuite Integration --testdox --colors=always CreerLivreTest.php
+````
+
+### Commande silly 
+````batch
+ php app.php biblio:add:Livre  
+````
 
 
 

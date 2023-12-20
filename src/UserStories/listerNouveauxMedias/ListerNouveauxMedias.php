@@ -16,12 +16,12 @@ class ListerNouveauxMedias {
     }
 
     public function execute(): ?array {
-        $mediasRepo = $this->entityManager->getRepository(\App\Entity\Media::class)->findBy(['status' => \App\Entity\Status::STATUS_NOUVEAU], ['dateCreation' => 'DESC']);
-        $medias = [];
-        foreach ($mediasRepo as $mediaRepo) {
-            $medias [] = $mediaRepo;
+        $medias = $this->entityManager->getRepository(\App\Entity\Media::class)->findBy(['status' => \App\Entity\Status::STATUS_NOUVEAU], ['dateCreation' => 'DESC']);
+        $mediasFiltre = [];
+        foreach ($medias as $media) {
+            $mediasFiltre [] = [$media->getId(), $media->getTitre(), $media->getStatus(), $media->getDateCreation()->format('d/m/Y'), (new ReflectionClass($media))->getShortName() ];;
         }
-        return $medias;
+        return $mediasFiltre;
     }
 
 }

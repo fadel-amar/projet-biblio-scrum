@@ -58,13 +58,7 @@ $app->command('biblio:add:Magazine [name]', function (SymfonyStyle $io) use ($en
 
 $app->command('biblio:listMedia:Nouveau [name]', function (SymfonyStyle $io) use ($entityManager) {
     $medias =( new \App\UserStories\listerNouveauxMedias\ListerNouveauxMedias($entityManager))->execute();
-    $mediaNoObjet = [];
-    foreach ($medias as $media) {
-
-        $mediaNoObjet[] = [$media->getId(), $media->getTitre(), $media->getStatus(), $media->getDateCreation()->format('d/m/Y'), (new ReflectionClass($media))->getShortName() ];
-    }
-
-    $io->table(['id', 'titre', 'statut', 'dateCreation', 'typeMedia'],$mediaNoObjet);
+    $io->table(['id', 'titre', 'statut', 'dateCreation', 'typeMedia'],$medias);
 });
 
 

@@ -10,6 +10,7 @@ use App\UserStories\creerLivre\creerLivreRequete;
 use App\UserStories\creerMagazine\CreerMagazineRequete;
 use App\UserStories\emprunterMedia\EmprunterMedia;
 use App\UserStories\emprunterMedia\EmprunterMediaRequete;
+use App\UserStories\rendreMediaDisponible\RendreMediaDisponible;
 use App\UserStories\retourEmprunt\RetourEmprunt;
 use App\UserStories\retourEmprunt\RetourEmpruntRequete;
 use Silly\Application;
@@ -98,7 +99,7 @@ $app->command('biblio:setStatutMedia:Disponible', function (SymfonyStyle $io) us
         return false;
     }
     try {
-        $resultat = (new \App\UserStories\rendreMediaDisponible\RendreMediaDisponible(
+        $resultat = (new RendreMediaDisponible(
             $entityManager, $validateur
         ))->execute($id);
         if ($resultat) {

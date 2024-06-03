@@ -1,6 +1,6 @@
 <?php
-namespace App\UserStories\creerMagazine;
 
+namespace App\UserStories\creerMagazine;
 
 
 use App\Entity\DureeEmprunt;
@@ -13,10 +13,8 @@ class CreerMagazine
 {
 
 
-
     private EntityManagerInterface $entityManager;
     private ValidatorInterface $validateur;
-
 
 
     /**
@@ -44,6 +42,10 @@ class CreerMagazine
             }
 
             throw new \Exception(implode("\n", $messagesErreur));
+        }
+
+        if (!preg_match('/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/', $requete->datePublication)) {
+            throw new \Exception("La date de publication doit être en format dd/mm/yyyy");
         }
 
 

@@ -49,7 +49,7 @@ Class Emprunt {
 Livre --|> Media
 BluRay --|> Media
 Magazine --|> Media
-Adherent "1..*" <-- "1..1" Emprunt : associé >
+Emprunt "1..1" -->"1..*" Adherent : associé <
 Media "0..*" <-- "1..1" Emprunt : concerne >
 @enduml
 

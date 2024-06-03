@@ -13,6 +13,7 @@ class Magazine extends Media
     #[ORM\Column(type: 'string')]
     private int $numero;
 
+
     #[ORM\Column(type: 'string')]
     private string $datePublication;
 

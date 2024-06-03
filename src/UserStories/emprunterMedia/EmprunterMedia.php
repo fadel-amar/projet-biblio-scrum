@@ -50,7 +50,6 @@ class EmprunterMedia
         $adherent = $this->entityManager->getRepository(Adherent::class)->findOneBy (['numero_adherent' => $requete->numeroAdherent]);
         $numeroEmprunt = $this->numeroEmprunt->execute();
 
-        // todo Vérifier l'existence du média et de l'adhérent
         if (!$media) {
             throw new \Exception("Le Media renseigné n'a pas été trouvé");
         }
@@ -58,19 +57,15 @@ class EmprunterMedia
             throw new \Exception("L'adherent renseigné n'a pas été trouvé");
         }
 
-        // todo Vérifier que le média est disponible
         if ($media->getStatus() !== Status::STATUS_DISPONIBLE) {
             throw new \Exception("Le media n'est pas disponible");
         }
 
-        // todo Vérifier que le numero emprunt est unique
         $numeroEmpruntBDD = $this->entityManager->getRepository(Emprunt::class)->findOneBy(['numeroEmprunt' => $numeroEmprunt]);
         if ($numeroEmpruntBDD != null) {
             throw new \Exception("Le numero d'emprunt existe déjà");
         }
 
-
-        // todo Vérifier la validité de l'adhésion de l'adhérent
 
         if (!$adherent->AdhesionValide()) {
             throw new \Exception("L'adhésion de l'adhérent n'est plus valide veuillez renouvelez l'adhésion");

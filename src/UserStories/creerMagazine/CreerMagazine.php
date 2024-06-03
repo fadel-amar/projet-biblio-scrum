@@ -48,7 +48,6 @@ class CreerMagazine
 
 
         // Créer Magazine
-
         $magazine = new Magazine();
         $magazine->setNumero($requete->numero);
         $magazine->setDatePublication($requete->datePublication);

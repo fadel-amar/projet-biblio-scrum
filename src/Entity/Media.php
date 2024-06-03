@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap(["livre" => "Livre", "magazine"=>"Magazine"])]
+#[ORM\DiscriminatorMap(["livre" => "Livre", "magazine"=>"Magazine", "BluRayay" => "BluRay"])]
 abstract class Media {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]

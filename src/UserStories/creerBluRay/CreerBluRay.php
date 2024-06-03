@@ -1,15 +1,14 @@
 <?php
 
-namespace App\UserStories\creerLivre;
+namespace App\UserStories\creerBluRay;
 
+use App\Entity\BluRay;
 use App\Entity\DureeEmprunt;
-use App\Entity\Livre;
 use App\Entity\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
-class CreerLivre
+class CreerBluRay
 {
 
     private EntityManagerInterface $entityManager;
@@ -25,7 +24,8 @@ class CreerLivre
         $this->validateur = $validateur;
     }
 
-    public function execute(creerLivreRequete $requete) : bool
+
+    public function execute(CreerBluRayRequete $requete): bool
     {
         // Valider les données en entrées (de la requête)
         $problemes = $this->validateur->validate($requete);
@@ -36,33 +36,21 @@ class CreerLivre
             foreach ($problemes as $probleme) {
                 $messagesErreur[] = $probleme->getMessage();
             }
-
             throw new \Exception(implode("\n", $messagesErreur));
         }
 
-        // Verifier que l' isbn ets unique
-        $isbn = $requete->isbn;
-        $isbnDB = $this->entityManager->getRepository(Livre::class)->findOneBy(['isbn' => $isbn]);
-        if ($isbnDB != null) {
-            throw new \Exception("L'isbn n'est pas unique");
-        }
-
-        // Créer Livre
-        $livre = new Livre();
-        $livre->setIsbn($isbn);
-        $livre->setAuteur($requete->auteur);
-        $livre->setNbPages($requete->nbPages);
-        $livre->setTitre($requete->titre);
-        $livre->setDateCreation(New \DateTime());
-        $livre->setStatus(Status::STATUS_NOUVEAU);
-        $livre->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_LIVRE);
+        $bluRay = new BluRay();
+        $bluRay->setTitre($requete->titre);
+        $bluRay->setDuree($requete->duree);
+        $bluRay->setAnneeSortie($requete->anneePublication);
+        $bluRay->setRealisateur($requete->realisateur);
+        $bluRay->setDateCreation(new \DateTime());
+        $bluRay->setStatus(Status::STATUS_NOUVEAU);
+        $bluRay->setDureeEmprunt(DureeEmprunt::DUREE_EMPRUNT_BLURAY);
         // Enregistrer dans la BDD
-        $this->entityManager->persist($livre);
+        $this->entityManager->persist($bluRay);
         $this->entityManager->flush();
 
-    return true;
-
+        return true;
     }
-
-
 }
